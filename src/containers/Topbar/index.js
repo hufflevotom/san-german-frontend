@@ -55,7 +55,7 @@ const Topbar = () => {
       <Link to="/" className="gx-d-block gx-d-lg-none gx-pointer">
         <img alt="" src={("/assets/images/w-logo.png")}/></Link>
 
-      <SearchBox styleName="gx-d-none gx-d-lg-block gx-lt-icon-search-bar-lg"
+      {/* <SearchBox styleName="gx-d-none gx-d-lg-block gx-lt-icon-search-bar-lg"
                  placeholder="Search in app..."
                  onChange={updateSearchChatUser}
                  value={searchText}/>
@@ -105,7 +105,7 @@ const Topbar = () => {
             <li className="gx-user-nav"><UserInfo/></li>
           </Auxiliary>
         }
-      </ul>
+      </ul> */}
     </Header>
   );
 };
