@@ -11,8 +11,11 @@ import {
   NAV_STYLE_NO_HEADER_MINI_SIDEBAR,
   THEME_TYPE_LITE
 } from "../../constants/ThemeSetting";
-import IntlMessages from "../../util/IntlMessages";
 import { useSelector } from "react-redux";
+
+const SubMenu = Menu.SubMenu;
+const MenuItemGroup = Menu.ItemGroup;
+
 
 const SidebarContent = ({ sidebarCollapsed, setSidebarCollapsed }) => {
   const { navStyle, themeType } = useSelector(({ settings }) => settings);
@@ -24,6 +27,14 @@ const SidebarContent = ({ sidebarCollapsed, setSidebarCollapsed }) => {
     }
     return "";
   };
+
+  const getNavStyleSubMenuClass = (navStyle) => {
+    if (navStyle === NAV_STYLE_NO_HEADER_MINI_SIDEBAR) {
+      return "gx-no-header-submenu-popup";
+    }
+    return "";
+  };
+
 
   const selectedKeys = pathname.substr(1);
   const defaultOpenKeys = selectedKeys.split('/')[1];
@@ -43,17 +54,33 @@ const SidebarContent = ({ sidebarCollapsed, setSidebarCollapsed }) => {
             theme={themeType === THEME_TYPE_LITE ? 'lite' : 'dark'}
             mode="inline">
 
-            <Menu.Item key="sample">
+            {/*  <Menu.Item key="sample">
               <Link to="/sample"><i className="icon icon-widgets" />
                 <span><IntlMessages id="sidebar.samplePage" /></span>
               </Link>
-            </Menu.Item>
+            </Menu.Item> */}
 
-            <Menu.Item key="configuracion">
-              <Link to="/configuracion"><i className="icon icon-widgets" />
-                <span>Configuración</span>
-              </Link>
-            </Menu.Item>
+            <MenuItemGroup key="modulos" className="gx-menu-group" title="Módulos">
+              <SubMenu key="configuracion" popupClassName={getNavStyleSubMenuClass(navStyle)}
+                title={<span> <i className="icon icon-dasbhoard" />
+                  <span>Configuración</span></span>}>
+
+                <Menu.Item key="configuracion/almacen">
+                  <Link to="/configuracion/almacen"><i className="icon icon-widgets" />
+                    <span>Almacén</span>
+                  </Link>
+                </Menu.Item>
+
+                <Menu.Item key="configuracion/producto">
+                  <Link to="/configuracion/producto"><i className="icon icon-widgets" />
+                    <span>Producto</span>
+                  </Link>
+                </Menu.Item>
+
+              </SubMenu>
+
+            </MenuItemGroup>
+
 
           </Menu>
         </CustomScrollbars>
