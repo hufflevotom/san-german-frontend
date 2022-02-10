@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {httpClient} from "../../../util/Api";
+import { httpClient } from "../../../util/Api";
 
 export const useProvideAuth = () => {
   const [authUser, setAuthUser] = useState(null);
@@ -23,23 +23,36 @@ export const useProvideAuth = () => {
   };
 
   const userLogin = (user, callbackFun) => {
+    const userData = {
+      name: 'Luis',
+      code: '666',
+    }
     fetchStart();
-    httpClient
-      .post('auth/login', user)
-      .then(({ data }) => {
-        if (data.result) {
-          fetchSuccess();
-          httpClient.defaults.headers.common['Authorization'] = 'Bearer ' + data.token.access_token;
-          localStorage.setItem('token', data.token.access_token);
-          getAuthUser();
-          if (callbackFun) callbackFun();
-        } else {
-          fetchError(data.error);
-        }
-      })
-      .catch(function (error) {
-        fetchError(error.message);
-      });
+    fetchSuccess();
+    localStorage.setItem('token', JSON.stringify(userData));
+    getAuthUser(userData);
+
+    /*
+      Petición para iniciar sesión con el login
+      -----------------------------------------
+      fetchStart();
+     httpClient
+       .post('auth/login', user)
+       .then(({ data }) => {
+         if (data.result) {
+           fetchSuccess();
+           httpClient.defaults.headers.common['Authorization'] = 'Bearer ' + data.token.access_token;
+           localStorage.setItem('token', data.token.access_token);
+           getAuthUser();
+           if (callbackFun) callbackFun();
+         } else {
+           fetchError(data.error);
+         }
+       })
+       .catch(function (error) {
+         fetchError(error.message);
+       }); 
+       */
   };
 
   const userSignup = (user, callbackFun) => {
@@ -102,22 +115,26 @@ export const useProvideAuth = () => {
       });
   };
 
-  const getAuthUser = () => {
+  const getAuthUser = (userData) => {
     fetchStart();
-    httpClient
-      .post('auth/me')
-      .then(({ data }) => {
-        if (data.user) {
-          fetchSuccess();
-          setAuthUser(data.user);
-        } else {
-          fetchError(data.error);
-        }
-      })
-      .catch(function (error) {
-        httpClient.defaults.headers.common['Authorization'] = '';
-        fetchError(error.message);
-      });
+    fetchSuccess();
+    setAuthUser(userData);
+
+    /*  fetchStart();
+     httpClient
+       .post('auth/me')
+       .then(({ data }) => {
+         if (data.user) {
+           fetchSuccess();
+           setAuthUser(data.user);
+         } else {
+           fetchError(data.error);
+         }
+       })
+       .catch(function (error) {
+         httpClient.defaults.headers.common['Authorization'] = '';
+         fetchError(error.message);
+       }); */
   };
 
   // Subscribe to user on mount
@@ -127,23 +144,27 @@ export const useProvideAuth = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      httpClient.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-    }
+    setAuthUser(JSON.parse(token));
+    setLoadingUser(false);
 
-    httpClient
-      .post('auth/me')
-      .then(({ data }) => {
-        if (data.user) {
-          setAuthUser(data.user);
-        }
-        setLoadingUser(false);
-      })
-      .catch(function () {
-        localStorage.removeItem('token');
-        httpClient.defaults.headers.common['Authorization'] = '';
-        setLoadingUser(false);
-      });
+    /*  const token = localStorage.getItem('token');
+     if (token) {
+       httpClient.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+     }
+ 
+     httpClient
+       .post('auth/me')
+       .then(({ data }) => {
+         if (data.user) {
+           setAuthUser(data.user);
+         }
+         setLoadingUser(false);
+       })
+       .catch(function () {
+         localStorage.removeItem('token');
+         httpClient.defaults.headers.common['Authorization'] = '';
+         setLoadingUser(false);
+       }); */
   }, []);
 
   // Return the user object and auth methods

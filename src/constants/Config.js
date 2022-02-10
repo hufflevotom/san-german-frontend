@@ -1,5 +1,5 @@
 //Ip del servidor local
-const URL_BASE_LOCAL = 'http://192.168.123.3:3000';
+export const URL_BASE_LOCAL = 'http://192.168.123.3:3000';
 
 //Módulo de Configuración - Almacen
 export const GET_ALMACENES = URL_BASE_LOCAL + '/config/almacen';
