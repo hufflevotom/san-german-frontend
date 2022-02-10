@@ -1,9 +1,9 @@
 {
-  "short_name": "Wieldy",
-  "name": "Wieldy- Admin Dashboard",
+  "short_name": "San German",
+  "name": "San German",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "w-logo.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }

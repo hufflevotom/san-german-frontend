@@ -51,7 +51,7 @@ export const useProvideAuth = () => {
        })
        .catch(function (error) {
          fetchError(error.message);
-       }); 
+       });
        */
   };
 
@@ -97,23 +97,29 @@ export const useProvideAuth = () => {
 
   const userSignOut = (callbackFun) => {
     fetchStart();
-    httpClient
-      .post('auth/logout')
-      .then(({ data }) => {
-        if (data.result) {
-          fetchSuccess();
-          httpClient.defaults.headers.common['Authorization'] = '';
-          localStorage.removeItem('token');
-          setAuthUser(false);
-          if (callbackFun) callbackFun();
-        } else {
-          fetchError(data.error);
-        }
-      })
-      .catch(function (error) {
-        fetchError(error.message);
-      });
+    fetchSuccess();
+    localStorage.removeItem('token');
+    setAuthUser(false);
   };
+  // const userSignOut = (callbackFun) => {
+  //   fetchStart();
+  //   httpClient
+  //     .post('auth/logout')
+  //     .then(({ data }) => {
+  //       if (data.result) {
+  //         fetchSuccess();
+  //         httpClient.defaults.headers.common['Authorization'] = '';
+  //         localStorage.removeItem('token');
+  //         setAuthUser(false);
+  //         if (callbackFun) callbackFun();
+  //       } else {
+  //         fetchError(data.error);
+  //       }
+  //     })
+  //     .catch(function (error) {
+  //       fetchError(error.message);
+  //     });
+  // };
 
   const getAuthUser = (userData) => {
     fetchStart();
@@ -151,7 +157,7 @@ export const useProvideAuth = () => {
      if (token) {
        httpClient.defaults.headers.common['Authorization'] = 'Bearer ' + token;
      }
- 
+
      httpClient
        .post('auth/me')
        .then(({ data }) => {

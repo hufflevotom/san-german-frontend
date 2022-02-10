@@ -1,10 +1,13 @@
-import React, {useState} from "react";
-import {Layout, Popover} from "antd";
-import {Link} from "react-router-dom";
+import React, { useState } from "react";
+import { Layout, Popover, Button } from "antd";
+import { Link } from "react-router-dom";
+
+import { useHistory } from 'react-router';
+import { useAuth } from '../../authentication';
 
 import CustomScrollbars from "util/CustomScrollbars";
 import languageData from "./languageData";
-import {switchLanguage, toggleCollapsedSideNav} from "../../appRedux/actions";
+import { switchLanguage, toggleCollapsedSideNav } from "../../appRedux/actions";
 import SearchBox from "../../components/SearchBox";
 import UserInfo from "../../components/UserInfo";
 import AppNotification from "../../components/AppNotification";
@@ -12,15 +15,18 @@ import MailNotification from "../../components/MailNotification";
 import Auxiliary from "util/Auxiliary";
 
 
-import {NAV_STYLE_DRAWER, NAV_STYLE_FIXED, NAV_STYLE_MINI_SIDEBAR, TAB_SIZE} from "../../constants/ThemeSetting";
-import {useDispatch, useSelector} from "react-redux";
+import { NAV_STYLE_DRAWER, NAV_STYLE_FIXED, NAV_STYLE_MINI_SIDEBAR, TAB_SIZE } from "../../constants/ThemeSetting";
+import { useDispatch, useSelector } from "react-redux";
 
-const {Header} = Layout;
+const { Header } = Layout;
 
 const Topbar = () => {
-  const {locale, navStyle} = useSelector(({settings}) => settings);
-  const navCollapsed = useSelector(({common}) => common.navCollapsed);
-  const width = useSelector(({common}) => common.width);
+  const { userSignOut } = useAuth();
+  const history = useHistory();
+
+  const { locale, navStyle } = useSelector(({ settings }) => settings);
+  const navCollapsed = useSelector(({ common }) => common.navCollapsed);
+  const width = useSelector(({ common }) => common.width);
   const [searchText, setSearchText] = useState('');
   const dispatch = useDispatch();
 
@@ -31,7 +37,7 @@ const Topbar = () => {
           <li className="gx-media gx-pointer" key={JSON.stringify(language)} onClick={() =>
             dispatch(switchLanguage(language))
           }>
-            <i className={`flag flag-24 gx-mr-2 flag-${language.icon}`}/>
+            <i className={`flag flag-24 gx-mr-2 flag-${language.icon}`} />
             <span className="gx-language-text">{language.name}</span>
           </li>
         )}
@@ -42,18 +48,33 @@ const Topbar = () => {
     setSearchText(evt.target.value);
   };
 
+  const onLogoutClick = () => {
+    userSignOut(() => {
+      history.push('/');
+    });
+  }
+
   return (
     <Header>
       {navStyle === NAV_STYLE_DRAWER || ((navStyle === NAV_STYLE_FIXED || navStyle === NAV_STYLE_MINI_SIDEBAR) && width < TAB_SIZE) ?
         <div className="gx-linebar gx-mr-3">
           <i className="gx-icon-btn icon icon-menu"
-             onClick={() => {
-               dispatch(toggleCollapsedSideNav(!navCollapsed));
-             }}
+            onClick={() => {
+              dispatch(toggleCollapsedSideNav(!navCollapsed));
+            }}
           />
         </div> : null}
       <Link to="/" className="gx-d-block gx-d-lg-none gx-pointer">
-        <img alt="" src={("/assets/images/w-logo.png")}/></Link>
+        <img alt="" src={("/assets/images/w-logo.png")} />
+      </Link>
+      <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "end" }}>
+        <Button
+          style={{ margin: 0 }}
+          onClick={onLogoutClick}
+        >
+          Cerrar Sesión
+        </Button>
+      </div>
 
       {/* <SearchBox styleName="gx-d-none gx-d-lg-block gx-lt-icon-search-bar-lg"
                  placeholder="Search in app..."
@@ -106,7 +127,7 @@ const Topbar = () => {
           </Auxiliary>
         }
       </ul> */}
-    </Header>
+    </Header >
   );
 };
 
