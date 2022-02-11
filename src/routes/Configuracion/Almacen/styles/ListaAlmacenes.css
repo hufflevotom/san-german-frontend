@@ -1,0 +1,27 @@
+.card-title {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  margin-right: 5%;
+}
+
+.card-title-text {
+  grid-area: "1 / 1 / 2 / 2";
+  font-size: 22px;
+  padding-top: 20px;
+}
+
+.area-button-agregar {
+  grid-area: "1 / 2 / 2 / 3";
+  display: flex;
+  flex-direction: row-reverse;
+  padding-top: 15px;
+}
+
+.button-agregar {
+  display: "flex";
+  align-items: center;
+  justify-content: center;
+}
