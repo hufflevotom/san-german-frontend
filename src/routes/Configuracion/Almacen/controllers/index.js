@@ -1,49 +1,24 @@
-import { Button, Divider, Input, Space } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
-
+import { Divider, message, Modal } from 'antd';
 // Services
 import { obtenerAlmacenes, crearAlmacen, eliminarAlmacen, obtenerAlmacenPorId, actualizarAlmacen } from "../services/index";
-
 //Store
 import store, { history } from '../../../../appRedux/store';
-import { setAlmacen, setNombre, setUbicacion } from '../../../../appRedux/actions/Configuracion/Almacen';
+import { setAlmacen, setCargando, setClear, setNombre, setUbicacion } from '../../../../appRedux/actions/Configuracion/Almacen';
+import { getColumnSearchProps } from '../../../../util/Utils';
 
 
-export const getColumnSearchProps = dataIndex => ({
-  filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-    <div style={{ padding: 8 }}>
-      <Input
-        placeholder={`Buscar ${dataIndex}`}
-        value={selectedKeys[0]}
-        onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-        onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-        style={{ marginBottom: 8, display: 'block' }}
-      />
-      <Space>
-        <Button
-          type="primary"
-          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          icon={<SearchOutlined />}
-          size="small"
-          style={{ width: 90 }}
-        >
-          Buscar
-        </Button>
-        <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-          Reiniciar
-        </Button>
-      </Space>
-    </div>
-  ),
-  filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-  onFilter: (value, record) =>
-    record[dataIndex]
-      ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
-      : '',
-});
-
-const handleSearch = (selectedKeys, confirm, dataIndex) => confirm();
-const handleReset = clearFilters => clearFilters();
+const config = (almacen) => {
+  return {
+    title: `¿Desea Eliminar el Almacén ${almacen.nombre}?`,
+    okText: 'Eliminar',
+    cancelText: 'Cancelar',
+    onOk: () => borrarAlmacen(almacen._id),
+    onCancel: () => console.log("Cancelado"),
+    content: (
+      <> Los datos eliminados no podran recuperarse. </>
+    ),
+  }
+};
 
 export const columns = [
   {
@@ -67,7 +42,6 @@ export const columns = [
   {
     title: 'Acciones',
     dataIndex: 'a',
-    // width: 80,
     render: (text, record) => (
       <span>
         <span className="gx-link">
@@ -82,7 +56,7 @@ export const columns = [
           <i
             className="icon icon-trash"
             style={{ fontSize: 17, color: "red" }}
-            onClick={() => borrarAlmacen(record._id)}
+            onClick={() => Modal.confirm(config(record))}
           />
         </span>
       </span >
@@ -90,21 +64,21 @@ export const columns = [
   }
 ];
 
+
+// FUNCIONES DEL CONSUMO DEL API
 export const obtenerUnAlmacen = async (id) => {
   try {
     const response = await obtenerAlmacenPorId(id);
     if (response.statusCode === 200) {
       const body = response.body;
-      console.log(body);
       store.dispatch(setNombre(body.nombre));
       store.dispatch(setUbicacion(body.ubicacion));
     } else {
       console.log('Error al obtener un almacen');
-
     }
   } catch (error) {
     console.error("Error al obtener lista almacen: ", error);
-    alert(error);
+    message.error(error);
   }
 }
 
@@ -120,48 +94,58 @@ export const listarAlmacenes = async () => {
 
   } catch (error) {
     console.error("Error al obtener lista almacen: ", error);
-    alert(error);
+    message.error(error);
   }
 }
 
 export const guardarAlmacen = async () => {
+  //Loading ON
+  store.dispatch(setCargando(true));
   const state = store.getState().almacen;
+
   try {
     const response = await crearAlmacen(state.nombre, state.ubicacion);
-    console.log(response);
     if (response.statusCode === 201) {
-      //Redireccionar
-      window.location.href = '/configuracion/almacen';
-
       //Mostrar Mensaje:  Creado exitosamente
-
+      message.success('Almacen creado correctamente');
+      //Redireccionar a la lista de almacenes
+      history.push('/configuracion/almacen');
     } else {
       //Mostrar Mensaje:  Ocurrio un error
+      message.error('Ocurrió un error al crear el almacen');
     };
+    //Loading OFF
+    store.dispatch(setCargando(false));
+    store.dispatch(setClear());
   } catch (error) {
     console.error("Error al crear almacen: ", error);
-    alert(error);
+    message.error(error);
   }
 }
 
 export const editarAlmacen = async (id) => {
+  //Loading ON
+  store.dispatch(setCargando(true));
   const state = store.getState().almacen;
+
   try {
     const response = await actualizarAlmacen(id, state.nombre, state.ubicacion);
-    console.log(response);
-
     if (response.statusCode === 200) {
-      //Redireccionar
-      window.location.href = '/configuracion/almacen';
-
-      //Mostrar Mensaje:  Editado exitosamente
+      //Mostrar Mensaje:  Creado exitosamente
+      message.success('Almacen actualizado correctamente');
+      //Redireccionar a la lista de almacenes
+      history.push('/configuracion/almacen');
     } else {
       //Mostrar Mensaje:  Ocurrio un error
+      message.error('Ocurrió un error al editar el almacen');
     }
+    //Loading OFF
+    store.dispatch(setCargando(false));
+    store.dispatch(setClear());
 
   } catch (error) {
     console.error("Error al editar almacen: ", error);
-    alert(error);
+    message.error(error);
   }
 }
 
@@ -169,18 +153,17 @@ export const editarAlmacen = async (id) => {
 export const borrarAlmacen = async (id) => {
   try {
     const response = await eliminarAlmacen(id);
-    console.log(response);
     if (response.statusCode === 200) {
-      //Mostrar Mensaje:  Eliminado exitosamente
-
+      //Mostrar Mensaje:  Creado exitosamente
+      message.success('Almacen eliminado correctamente');
       //Volver a Llamar al Api Listar
       listarAlmacenes();
-
     } else {
       //Mostrar Mensaje:  Ocurrio un error
+      message.error('Ocurrió un error al eliminar el almacen');
     };
   } catch (error) {
     console.error("Error al eliminar almacen: ", error);
-    alert(error);
+    message.error(error);
   }
 }

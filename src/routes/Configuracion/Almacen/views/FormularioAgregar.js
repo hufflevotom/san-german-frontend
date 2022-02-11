@@ -1,12 +1,13 @@
 import React from 'react';
 import { Form, Input, Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setClear, setNombre, setUbicacion } from '../../../../appRedux/actions/Configuracion/Almacen';
 import { guardarAlmacen } from '../controllers';
 
 export const FormularioAgregar = () => {
 
+    const almacen = useSelector(store => store.almacen);
     const dispatch = useDispatch();
 
     return (
@@ -58,7 +59,16 @@ export const FormularioAgregar = () => {
                     </Form.Item>
 
                     <Form.Item label=" ">
-                        <Button type="primary" htmlType="submit" onClick={() => guardarAlmacen()}>
+                        <Button
+                            loading={almacen.cargando}
+                            disabled={
+                                almacen.nombre === '' || almacen.ubicacion === ''
+                                    ? true
+                                    : false
+                            }
+                            type="primary"
+                            htmlType="submit"
+                            onClick={() => guardarAlmacen()}>
                             Guardar
                         </Button>
                     </Form.Item>

@@ -74,7 +74,16 @@ export const FormularioEditar = (props) => {
                     </Form.Item>
 
                     <Form.Item label=" ">
-                        <Button type="primary" htmlType="submit" onClick={() => editarAlmacen(params.id)}>
+                        <Button
+                            loading={almacen.cargando}
+                            disabled={
+                                almacen.nombre === '' || almacen.ubicacion === ''
+                                    ? true
+                                    : false
+                            }
+                            type="primary"
+                            htmlType="submit"
+                            onClick={() => editarAlmacen(params.id)}>
                             Actualizar
                         </Button>
                     </Form.Item>

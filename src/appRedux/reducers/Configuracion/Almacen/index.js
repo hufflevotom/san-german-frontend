@@ -1,6 +1,7 @@
 import { typesAlmacen } from "../types/types";
 
 const initState = {
+    cargando: false,
     ubicacion: '',
     nombre: '',
     almacen: [],
@@ -8,6 +9,12 @@ const initState = {
 
 export const AlmacenReducer = (state = initState, action) => {
     switch (action.type) {
+        case typesAlmacen.setCargando:
+            return {
+                ...state,
+                cargando: action.payload
+            };
+
         case typesAlmacen.setUbicacion:
             return {
                 ...state,
