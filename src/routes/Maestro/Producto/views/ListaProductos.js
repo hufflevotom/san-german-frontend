@@ -25,7 +25,7 @@ export const ListaProductos = () => {
           <div className='card-title-text'>Productos</div>
           <div className='area-button-agregar'>
             <Button className='button-agregar' type="primary">
-              <Link to="/configuracion/almacen/agregar">
+              <Link to="/maestro/producto/agregar">
                 Agregar
               </Link>
             </Button>
