@@ -1,3 +1,4 @@
-import { ListaAlmacenes } from './views';
+import { ListaAlmacenes } from "./views/ListaAlmacenes";
+
 
 export const Almacen = () => <ListaAlmacenes />

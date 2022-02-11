@@ -1,15 +1,23 @@
 import { typesAlmacen } from "../../../reducers/Configuracion/types/types";
 
-export const setCodigo = (codigo) => {
+export const setUbicacion = (codigo) => {
     return {
-        type: typesAlmacen.setCodigo,
+        type: typesAlmacen.setUbicacion,
         payload: codigo
+    };
+};
+
+
+
+export const setClear = () => {
+    return {
+        type: typesAlmacen.setClear,
     };
 };
 
 export const setNombre = (nombre) => {
     return {
-        type: typesAlmacen.setCodigo,
+        type: typesAlmacen.setNombre,
         payload: nombre
     };
 };

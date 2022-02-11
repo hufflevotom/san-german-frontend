@@ -1,17 +1,17 @@
 import { typesAlmacen } from "../types/types";
 
 const initState = {
-    codigo: '',
+    ubicacion: '',
     nombre: '',
     almacen: [],
 };
 
 export const AlmacenReducer = (state = initState, action) => {
     switch (action.type) {
-        case typesAlmacen.setCodigo:
+        case typesAlmacen.setUbicacion:
             return {
                 ...state,
-                codigo: action.payload
+                ubicacion: action.payload
             };
 
         case typesAlmacen.setNombre:
@@ -24,6 +24,13 @@ export const AlmacenReducer = (state = initState, action) => {
             return {
                 ...state,
                 almacen: action.payload
+            };
+
+        case typesAlmacen.setClear:
+            return {
+                ...state,
+                ubicacion: '',
+                nombre: '',
             };
 
         default:

@@ -71,15 +71,19 @@ const SidebarContent = ({ sidebarCollapsed, setSidebarCollapsed }) => {
                   </Link>
                 </Menu.Item>
 
-                <Menu.Item key="configuracion/producto">
-                  <Link to="/configuracion/producto"><i className="icon icon-widgets" />
-                    <span>Producto</span>
-                  </Link>
-                </Menu.Item>
-
               </SubMenu>
-
             </MenuItemGroup>
+
+            <SubMenu key="maestro" popupClassName={getNavStyleSubMenuClass(navStyle)}
+              title={<span> <i className="icon icon-dasbhoard" />
+                <span>Maestro</span></span>}>
+              <Menu.Item key="maestro/producto">
+                <Link to="/maestro/producto"><i className="icon icon-widgets" />
+                  <span>Producto</span>
+                </Link>
+              </Menu.Item>
+
+            </SubMenu>
 
 
           </Menu>
