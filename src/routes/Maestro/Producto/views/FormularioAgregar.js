@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import { Form, Input, Button, Card, Select } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setClear, setCodigo, setDescripcion } from '../../../../appRedux/actions/Configuracion/Producto';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAlmacenId, setClear, setCodigo, setDescripcion } from '../../../../appRedux/actions/Configuracion/Producto';
 import { listarAlmacenes } from '../../../Configuracion/Almacen/controllers';
 
 export const FormularioAgregar = () => {
 
   const dispatch = useDispatch();
+  const { almacen } = useSelector(state => state.almacen);
 
   useEffect(() => {
     listarAlmacenes();
@@ -22,7 +23,7 @@ export const FormularioAgregar = () => {
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               <Button
                 type='link'
-                style={{ margin: 0 }}
+                style={{ margin: 0, padding: 0 }}
                 onClick={() => dispatch(setClear())}
               >
                 <Link to="/maestro/producto">
@@ -102,8 +103,21 @@ export const FormularioAgregar = () => {
           >
             <Select
               placeholder="Seleccione el almacén"
+              onChange={(e) => dispatch(setAlmacenId(e))}
             >
-
+              {
+                almacen ?
+                  almacen.map(element => {
+                    return (
+                      <Select.Option
+                        key={element._id}
+                        value={element._id}
+                      >
+                        {element.nombre}
+                      </Select.Option>
+                    );
+                  }) : null
+              }
             </Select>
           </Form.Item>
           <Form.Item

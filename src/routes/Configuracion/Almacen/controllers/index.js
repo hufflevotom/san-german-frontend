@@ -87,6 +87,9 @@ export const listarAlmacenes = async () => {
     const response = await obtenerAlmacenes();
     if (response.statusCode === 200) {
       const body = response.body;
+      body.forEach(element => {
+        element.key = element._id;
+      });
       store.dispatch(setAlmacen(body));
     } else {
       console.log('Error al listar almacenes');
