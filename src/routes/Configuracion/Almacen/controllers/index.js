@@ -2,11 +2,11 @@ import { Button, Divider, Input, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 // Services
-import { obtenerAlmacenes } from "../services/index";
+import { obtenerAlmacenes, crearAlmacen, eliminarAlmacen, obtenerAlmacenPorId, actualizarAlmacen } from "../services/index";
 
 //Store
-import store from '../../../../appRedux/store';
-import { setAlmacen } from '../../../../appRedux/actions/Configuracion/Almacen';
+import store, { history } from '../../../../appRedux/store';
+import { setAlmacen, setNombre, setUbicacion } from '../../../../appRedux/actions/Configuracion/Almacen';
 
 
 export const getColumnSearchProps = dataIndex => ({
@@ -74,9 +74,7 @@ export const columns = [
           <i
             className="icon icon-edit"
             style={{ fontSize: 16, color: 'orange' }}
-            onClick={() => {
-              //TODO: EDITAR
-            }}
+            onClick={() => history.push(`/configuracion/almacen/editar/${record._id}`, { query: record })}
           />
         </span>
         <Divider type="vertical" />
@@ -84,15 +82,31 @@ export const columns = [
           <i
             className="icon icon-trash"
             style={{ fontSize: 17, color: "red" }}
-            onClick={() => {
-              //TODO: ELIMINAR
-            }}
+            onClick={() => borrarAlmacen(record._id)}
           />
         </span>
       </span >
     ),
   }
 ];
+
+export const obtenerUnAlmacen = async (id) => {
+  try {
+    const response = await obtenerAlmacenPorId(id);
+    if (response.statusCode === 200) {
+      const body = response.body;
+      console.log(body);
+      store.dispatch(setNombre(body.nombre));
+      store.dispatch(setUbicacion(body.ubicacion));
+    } else {
+      console.log('Error al obtener un almacen');
+
+    }
+  } catch (error) {
+    console.error("Error al obtener lista almacen: ", error);
+    alert(error);
+  }
+}
 
 export const listarAlmacenes = async () => {
   try {
@@ -106,6 +120,67 @@ export const listarAlmacenes = async () => {
 
   } catch (error) {
     console.error("Error al obtener lista almacen: ", error);
+    alert(error);
+  }
+}
+
+export const guardarAlmacen = async () => {
+  const state = store.getState().almacen;
+  try {
+    const response = await crearAlmacen(state.nombre, state.ubicacion);
+    console.log(response);
+    if (response.statusCode === 201) {
+      //Redireccionar
+      window.location.href = '/configuracion/almacen';
+
+      //Mostrar Mensaje:  Creado exitosamente
+
+    } else {
+      //Mostrar Mensaje:  Ocurrio un error
+    };
+  } catch (error) {
+    console.error("Error al crear almacen: ", error);
+    alert(error);
+  }
+}
+
+export const editarAlmacen = async (id) => {
+  const state = store.getState().almacen;
+  try {
+    const response = await actualizarAlmacen(id, state.nombre, state.ubicacion);
+    console.log(response);
+
+    if (response.statusCode === 200) {
+      //Redireccionar
+      window.location.href = '/configuracion/almacen';
+
+      //Mostrar Mensaje:  Editado exitosamente
+    } else {
+      //Mostrar Mensaje:  Ocurrio un error
+    }
+
+  } catch (error) {
+    console.error("Error al editar almacen: ", error);
+    alert(error);
+  }
+}
+
+
+export const borrarAlmacen = async (id) => {
+  try {
+    const response = await eliminarAlmacen(id);
+    console.log(response);
+    if (response.statusCode === 200) {
+      //Mostrar Mensaje:  Eliminado exitosamente
+
+      //Volver a Llamar al Api Listar
+      listarAlmacenes();
+
+    } else {
+      //Mostrar Mensaje:  Ocurrio un error
+    };
+  } catch (error) {
+    console.error("Error al eliminar almacen: ", error);
     alert(error);
   }
 }
