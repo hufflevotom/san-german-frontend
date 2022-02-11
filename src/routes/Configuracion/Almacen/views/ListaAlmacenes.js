@@ -34,6 +34,7 @@ export const ListaAlmacenes = () => {
       }
     >
       <Table
+        key={almacen._id}
         className="gx-table-responsive"
         columns={columns}
         dataSource={almacen}

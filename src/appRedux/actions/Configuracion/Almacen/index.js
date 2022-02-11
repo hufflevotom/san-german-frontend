@@ -8,7 +8,6 @@ export const setUbicacion = (codigo) => {
 };
 
 
-
 export const setClear = () => {
     return {
         type: typesAlmacen.setClear,
@@ -28,6 +27,14 @@ export const setAlmacen = (data) => {
         payload: data
     };
 };
+
+export const setCargando = (data) => {
+    return {
+        type: typesAlmacen.setCargando,
+        payload: data
+    };
+};
+
 
 
 

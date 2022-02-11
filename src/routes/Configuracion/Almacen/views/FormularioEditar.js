@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Form, Input, Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setClear, setNombre, setUbicacion } from '../../../../appRedux/actions/Configuracion/Almacen';
-import { guardarAlmacen } from '../controllers';
+import { editarAlmacen, obtenerUnAlmacen } from '../controllers';
+import { useSelector } from 'react-redux';
 
-export const FormularioAgregar = () => {
+export const FormularioEditar = (props) => {
 
-    const almacen = useSelector(store => store.almacen);
+    const { match: { params } } = props;
+
+    const almacen = useSelector(state => state.almacen);
     const dispatch = useDispatch();
+    const formRef = useRef();
+
+    useEffect(() => {
+        obtenerUnAlmacen(params.id);
+    }, [params.id]);
+
+    useEffect(() => {
+        formRef.current.setFieldsValue({ nombre: almacen.nombre, ubicacion: almacen.ubicacion });
+    }, [almacen])
+
+
 
     return (
         <>
@@ -18,8 +32,9 @@ export const FormularioAgregar = () => {
                 </Link>
             </Button>
 
-            <Card title="Agregar Almacen">
+            <Card title="Editar Almacen">
                 <Form
+                    ref={formRef}
                     name="wrap"
                     labelCol={{
                         flex: '110px',
@@ -68,8 +83,8 @@ export const FormularioAgregar = () => {
                             }
                             type="primary"
                             htmlType="submit"
-                            onClick={() => guardarAlmacen()}>
-                            Guardar
+                            onClick={() => editarAlmacen(params.id)}>
+                            Actualizar
                         </Button>
                     </Form.Item>
                 </Form>
