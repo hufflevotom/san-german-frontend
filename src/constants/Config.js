@@ -10,10 +10,10 @@ export const DELETE_ALMACEN = URL_BASE_LOCAL + '/config/almacen/';
 
 //Módulo de Configuración - Productos
 
-export const GET_PRODUCTOS = URL_BASE_LOCAL + '/config/producto';
-export const CREATE_PRODUCTO = URL_BASE_LOCAL + '/config/producto';
-export const GET_ID_PRODUCTO = URL_BASE_LOCAL + '/config/producto/';
-export const UPDATE_PRODUCTO = URL_BASE_LOCAL + '/config/producto/';
-export const DELETE_PRODUCTO = URL_BASE_LOCAL + '/config/producto/';
+export const GET_PRODUCTOS = URL_BASE_LOCAL + '/maestro/producto';
+export const CREATE_PRODUCTO = URL_BASE_LOCAL + '/maestro/producto';
+export const GET_ID_PRODUCTO = URL_BASE_LOCAL + '/maestro/producto/';
+export const UPDATE_PRODUCTO = URL_BASE_LOCAL + '/maestro/producto/';
+export const DELETE_PRODUCTO = URL_BASE_LOCAL + '/maestro/producto/';
 
 

@@ -1,7 +1,2 @@
-import React from 'react'
-
-export const Producto = () => {
-    return (
-        <div>Index: Producto</div>
-    )
-}
+export { ListaProductos as Producto } from "./views/ListaProductos";
+export { FormularioAgregar } from "./views/FormularioAgregar";
