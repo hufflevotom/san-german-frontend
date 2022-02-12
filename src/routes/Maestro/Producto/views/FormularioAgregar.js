@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { Form, Input, Button, Card, Select } from 'antd';
-import { LeftOutlined } from '@ant-design/icons';
+import React, { createRef, useEffect } from 'react';
+import { Form, Input, Button, Card, Select, Space } from 'antd';
+import { LeftOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAlmacenId, setClear, setCodigo, setDescripcion } from '../../../../appRedux/actions/Maestro/Producto';
@@ -8,6 +8,7 @@ import { listarAlmacenes } from '../../../Configuracion/Almacen/controllers';
 
 export const FormularioAgregar = () => {
 
+  const formRef = createRef();
   const dispatch = useDispatch();
   const { almacen } = useSelector(state => state.almacen);
 
@@ -41,6 +42,7 @@ export const FormularioAgregar = () => {
                 type="primary"
                 style={{ margin: 0 }}
                 htmlType="submit"
+                onClick={() => console.log(formRef.current.getFieldsValue())}
               >
                 Guardar
               </Button>
@@ -60,6 +62,7 @@ export const FormularioAgregar = () => {
           }}
           colon={false}
           style={{ padding: '0 50px 0 50px' }}
+          ref={formRef}
         >
           <Form.Item
             label="Código"
@@ -120,25 +123,68 @@ export const FormularioAgregar = () => {
               }
             </Select>
           </Form.Item>
-          <Form.Item
-            label="Atributos"
-            name="atributosId"
-            rules={[
-              {
-                required: true,
-                message: 'El almacén es requerido',
-              },
-            ]}
-          >
-            <Select
-              mode="multiple"
-              placeholder="Seleccione los atributos"
-            >
-
-            </Select>
-          </Form.Item>
+          <Form.List name="atributos">
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map(({ key, name, ...restField }) => (
+                  <div style={{ display: 'flex', flexDirection: 'row', margin: '0 20px 20px 0', gap: '20px', alignItems: 'start' }}>
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'nombre']}
+                      rules={[{ required: true, message: 'Missing first name' }]}
+                      style={{ margin: 0, width: 'auto' }}
+                    >
+                      <Input placeholder="Atributo" style={{ margin: 0 }} />
+                    </Form.Item>
+                    {/* Opciones */}
+                    <Form.List name={'opciones' + key} style={{ margin: 0, width: '100%' }}>
+                      {(fields, { add, remove }) => (
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          {fields.map(({ key, name, ...restField }) => (
+                            <div style={{ display: 'flex', flexDirection: 'row', margin: '0 20px 10px 0', gap: '20px', alignItems: 'center' }}>
+                              <Form.Item
+                                {...restField}
+                                name={[name, 'nombre']}
+                                rules={[{ required: true, message: 'Missing first name' }]}
+                                style={{ margin: 0, width: '100%' }}
+                              >
+                                <Input placeholder="Opciones" style={{ margin: 0 }} />
+                              </Form.Item>
+                              <Form.Item
+                                {...restField}
+                                name={[name, 'img']}
+                                rules={[{ required: true, message: 'Missing first name' }]}
+                                style={{ margin: 0, width: '100%' }}
+                              >
+                                <Input placeholder="Imagen" style={{ margin: 0 }} />
+                              </Form.Item>
+                              {/* Opciones */}
+                              {/* TODO: Cambiar icono a trash */}
+                              <MinusCircleOutlined onClick={() => remove(name)} />
+                            </div>
+                          ))}
+                          <Form.Item style={{ margin: 0 }}>
+                            <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />} style={{ margin: 0 }}>
+                              Agregar Opciones
+                            </Button>
+                          </Form.Item>
+                        </div>
+                      )}
+                    </Form.List>
+                    {/* TODO: Cambiar icono a trash */}
+                    <MinusCircleOutlined onClick={() => remove(name)} style={{ marginTop: '10px' }} />
+                  </div>
+                ))}
+                <Form.Item style={{ marginTop: '20px' }}>
+                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />} style={{ margin: 0 }}>
+                    Agregar Atributo
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
         </Form>
-      </Card>
+      </Card >
     </>
   )
 }
