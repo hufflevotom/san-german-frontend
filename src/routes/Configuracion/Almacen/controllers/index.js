@@ -4,6 +4,7 @@ import { obtenerAlmacenes, crearAlmacen, eliminarAlmacen, obtenerAlmacenPorId, a
 //Store
 import store, { history } from '../../../../appRedux/store';
 import { setAlmacen, setCargando, setClear, setNombre, setUbicacion } from '../../../../appRedux/actions/Configuracion/Almacen';
+//Utils
 import { getColumnSearchProps } from '../../../../util/Utils';
 
 

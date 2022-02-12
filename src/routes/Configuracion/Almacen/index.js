@@ -1,2 +1,4 @@
-export { ListaAlmacenes as Almacen } from "./views/ListaAlmacenes";
-export { FormularioAgregar } from "./views/FormularioAgregar";
+export { FormularioAgregarAlmacen } from "./views/FormularioAgregar";
+export { FormularioEditarAlmacen } from "./views/FormularioEditar";
+export { ListaAlmacenes } from "./views/ListaAlmacenes";
+
