@@ -1,4 +1,4 @@
-import { typesProducto } from "../../../reducers/Configuracion/types/types";
+import { typesProducto } from "../../../reducers/Mestro/types/types";
 
 export const setClear = () => {
   return {

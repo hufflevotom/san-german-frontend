@@ -3,7 +3,7 @@ import { Form, Input, Button, Card, Select } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAlmacenId, setClear, setCodigo, setDescripcion } from '../../../../appRedux/actions/Configuracion/Producto';
+import { setAlmacenId, setClear, setCodigo, setDescripcion } from '../../../../appRedux/actions/Maestro/Producto';
 import { listarAlmacenes } from '../../../Configuracion/Almacen/controllers';
 
 export const FormularioAgregar = () => {
