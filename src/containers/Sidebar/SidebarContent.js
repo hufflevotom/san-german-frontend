@@ -71,6 +71,12 @@ const SidebarContent = ({ sidebarCollapsed, setSidebarCollapsed }) => {
                   </Link>
                 </Menu.Item>
 
+                <Menu.Item key="configuracion/proveedor">
+                  <Link to="/configuracion/proveedor"><i className="icon icon-widgets" />
+                    <span>Proveedor</span>
+                  </Link>
+                </Menu.Item>
+
               </SubMenu>
             </MenuItemGroup>
 

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setClear, setNombre, setUbicacion } from '../../../../appRedux/actions/Configuracion/Almacen';
 import { guardarAlmacen } from '../controllers';
 
-export const FormularioAgregar = () => {
+export const FormularioAgregarAlmacen = () => {
 
     const almacen = useSelector(store => store.almacen);
     const dispatch = useDispatch();

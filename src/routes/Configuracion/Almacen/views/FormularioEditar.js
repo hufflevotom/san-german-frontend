@@ -6,7 +6,7 @@ import { setClear, setNombre, setUbicacion } from '../../../../appRedux/actions/
 import { editarAlmacen, obtenerUnAlmacen } from '../controllers';
 import { useSelector } from 'react-redux';
 
-export const FormularioEditar = (props) => {
+export const FormularioEditarAlmacen = (props) => {
 
     const { match: { params } } = props;
 

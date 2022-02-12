@@ -8,8 +8,14 @@ export const GET_ID_ALMACEN = URL_BASE_LOCAL + '/config/almacen/';
 export const UPDATE_ALMACEN = URL_BASE_LOCAL + '/config/almacen/';
 export const DELETE_ALMACEN = URL_BASE_LOCAL + '/config/almacen/';
 
-//Módulo de Configuración - Productos
+//Módulo de Configuración - Proveedor
+export const GET_PROVEEDORES = URL_BASE_LOCAL + '/config/proveedor';
+export const CREATE_PROVEEDOR = URL_BASE_LOCAL + '/config/proveedor';
+export const GET_ID_PROVEEDOR = URL_BASE_LOCAL + '/config/proveedor/';
+export const UPDATE_PROVEEDOR = URL_BASE_LOCAL + '/config/proveedor/';
+export const DELETE_PROVEEDOR = URL_BASE_LOCAL + '/config/proveedor/';
 
+//Módulo de Maestro - Productos
 export const GET_PRODUCTOS = URL_BASE_LOCAL + '/maestro/producto';
 export const CREATE_PRODUCTO = URL_BASE_LOCAL + '/maestro/producto';
 export const GET_ID_PRODUCTO = URL_BASE_LOCAL + '/maestro/producto/';
