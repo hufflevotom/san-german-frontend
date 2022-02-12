@@ -4,7 +4,7 @@ import { getColumnSearchProps } from '../../../../util/Utils';
 import { obtenerProductos } from "../services/index";
 //Store
 import store from '../../../../appRedux/store';
-import { setProducto } from '../../../../appRedux/actions/Configuracion/Producto';
+import { setProducto } from '../../../../appRedux/actions/Maestro/Producto';
 
 export const columns = [
   {
