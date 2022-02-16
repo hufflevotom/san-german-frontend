@@ -1,49 +1,61 @@
-import React, { createRef, useEffect } from 'react';
-import { Form, Input, Button, Card, Select } from 'antd';
-import { LeftOutlined, MinusCircleOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { setAlmacenId, setClear, setCodigo, setDescripcion } from '../../../../appRedux/actions/Maestro/Producto';
-import { listarAlmacenes } from '../../../Configuracion/Almacen/controllers';
-import { guardarProducto } from '../controllers';
+import React, { createRef, useEffect } from "react";
+import { Form, Input, Button, Card, Select } from "antd";
+import {
+  LeftOutlined,
+  MinusCircleOutlined,
+  PlusOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setAlmacenId,
+  setClear,
+  setCodigo,
+  setDescripcion,
+} from "../../../../appRedux/actions/Maestro/Producto";
+import { listarAlmacenes } from "../../../Configuracion/Almacen/controllers";
+import { guardarProducto } from "../controllers";
 
 export const FormularioAgregar = () => {
-
   const formRef = createRef();
   const dispatch = useDispatch();
-  const { almacen } = useSelector(state => state.almacen);
+  const { almacen } = useSelector((state) => state.almacen);
 
   useEffect(() => {
     listarAlmacenes();
-  }, [])
+  }, []);
 
   const getFile = (e) => {
-    console.log('Upload event:', e);
+    console.log("Upload event:", e.target.files[0]);
 
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e.target.files[0].name;
+    return e.target.files[0];
   };
 
   return (
     <>
       <Card
         title={
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "row" }}>
               <Button
-                type='link'
+                type="link"
                 style={{ margin: 0, padding: 0 }}
                 onClick={() => dispatch(setClear())}
               >
                 <Link to="/maestro/producto">
-                  <LeftOutlined style={{ fontSize: '16px', margin: 0, paddingTop: '5px' }} />
+                  <LeftOutlined
+                    style={{ fontSize: "16px", margin: 0, paddingTop: "5px" }}
+                  />
                 </Link>
               </Button>
-              <h1
-                style={{ margin: '0 0 0 20px', paddingTop: '3px' }}
-              >
+              <h1 style={{ margin: "0 0 0 20px", paddingTop: "3px" }}>
                 Agregar Producto
               </h1>
             </div>
@@ -63,7 +75,7 @@ export const FormularioAgregar = () => {
         <Form
           name="wrap"
           labelCol={{
-            flex: '110px',
+            flex: "110px",
           }}
           labelAlign="left"
           labelWrap
@@ -71,7 +83,7 @@ export const FormularioAgregar = () => {
             flex: 1,
           }}
           colon={false}
-          style={{ padding: '0 50px 0 50px' }}
+          style={{ padding: "0 50px 0 50px" }}
           ref={formRef}
         >
           <Form.Item
@@ -80,7 +92,7 @@ export const FormularioAgregar = () => {
             rules={[
               {
                 required: true,
-                message: 'El codigo es requerido',
+                message: "El codigo es requerido",
               },
             ]}
           >
@@ -95,7 +107,7 @@ export const FormularioAgregar = () => {
             rules={[
               {
                 required: true,
-                message: 'La descripcion es requerida',
+                message: "La descripcion es requerida",
               },
             ]}
           >
@@ -110,7 +122,7 @@ export const FormularioAgregar = () => {
             rules={[
               {
                 required: true,
-                message: 'El almacén es requerido',
+                message: "El almacén es requerido",
               },
             ]}
           >
@@ -118,84 +130,123 @@ export const FormularioAgregar = () => {
               placeholder="Seleccione el almacén"
               onChange={(e) => dispatch(setAlmacenId(e))}
             >
-              {
-                almacen ?
-                  almacen.map(element => {
+              {almacen
+                ? almacen.map((element) => {
                     return (
-                      <Select.Option
-                        key={element._id}
-                        value={element._id}
-                      >
+                      <Select.Option key={element._id} value={element._id}>
                         {element.nombre}
                       </Select.Option>
                     );
-                  }) : null
-              }
+                  })
+                : null}
             </Select>
           </Form.Item>
           <Form.List name="atributos">
             {(fields, { add, remove }) => (
               <>
                 {fields.map(({ key, name, ...restField }) => (
-                  <div style={{ display: 'flex', flexDirection: 'row', margin: '0 20px 20px 0', gap: '20px', alignItems: 'start' }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      margin: "0 20px 20px 0",
+                      gap: "20px",
+                      alignItems: "start",
+                    }}
+                  >
                     <Form.Item
                       {...restField}
-                      name={[name, 'nombre']}
+                      name={[name, "nombre"]}
                       // rules={[{ required: true, message: 'Missing first name' }]}
-                      style={{ margin: 0, width: 'auto' }}
+                      style={{ margin: 0, width: "auto" }}
                     >
                       <Input placeholder="Atributo" style={{ margin: 0 }} />
                     </Form.Item>
-                    <Form.List name={[name, 'opciones']} style={{ margin: 0, width: '100%' }}>
+                    <Form.List
+                      name={[name, "opciones"]}
+                      style={{ margin: 0, width: "100%" }}
+                    >
                       {(fields, { add, remove }) => (
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
                           {fields.map(({ key, name, ...restField }) => (
-                            <div style={{ display: 'flex', flexDirection: 'row', margin: '0 20px 10px 0', gap: '20px', alignItems: 'center' }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                margin: "0 20px 10px 0",
+                                gap: "20px",
+                                alignItems: "center",
+                              }}
+                            >
                               <Form.Item
                                 {...restField}
-                                name={[name, 'nombre']}
+                                name={[name, "nombre"]}
                                 // rules={[{ required: true, message: 'Missing first name' }]}
-                                style={{ margin: 0, width: '100%' }}
+                                style={{ margin: 0, width: "100%" }}
                               >
-                                <Input placeholder="Opciones" style={{ margin: 0 }} />
+                                <Input
+                                  placeholder="Opciones"
+                                  style={{ margin: 0 }}
+                                />
                               </Form.Item>
                               <Form.Item
                                 getValueFromEvent={getFile}
-                                getValue
+                                valuePropName="file"
                                 {...restField}
-                                name={[name, 'img']}
-                                rules={[{ required: true, message: 'Missing first name' }]}
-                                style={{ margin: 0, width: '100%' }}
+                                name={[name, "img"]}
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "Missing first name",
+                                  },
+                                ]}
+                                style={{ margin: 0, width: "100%" }}
                               >
-                                <Input
-                                  type="file"
-                                  accept=".jpg,.jpeg,.png"
-                                />
+                                <Input type="file" accept=".jpg,.jpeg,.png" />
                               </Form.Item>
-                              <MinusCircleOutlined onClick={() => remove(name)} />
+                              <MinusCircleOutlined
+                                onClick={() => remove(name)}
+                              />
                             </div>
                           ))}
                           <Form.Item style={{ margin: 0 }}>
-                            <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />} style={{ margin: 0 }}>
+                            <Button
+                              type="dashed"
+                              onClick={() => add()}
+                              block
+                              icon={<PlusOutlined />}
+                              style={{ margin: 0 }}
+                            >
                               Agregar Opciones
                             </Button>
                           </Form.Item>
                         </div>
                       )}
                     </Form.List>
-                    <DeleteOutlined onClick={() => remove(name)} style={{ marginTop: '10px' }} />
+                    <DeleteOutlined
+                      onClick={() => remove(name)}
+                      style={{ marginTop: "10px" }}
+                    />
                   </div>
                 ))}
-                <Form.Item style={{ marginTop: '20px' }}>
-                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />} style={{ margin: 0 }}>
+                <Form.Item style={{ marginTop: "20px" }}>
+                  <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    block
+                    icon={<PlusOutlined />}
+                    style={{ margin: 0 }}
+                  >
                     Agregar Atributo
                   </Button>
                 </Form.Item>
               </>
             )}
           </Form.List>
-        </Form >
-      </Card >
+        </Form>
+      </Card>
     </>
-  )
-}
+  );
+};
