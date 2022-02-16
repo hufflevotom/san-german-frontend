@@ -1,10 +1,11 @@
 import React, { createRef, useEffect } from 'react';
-import { Form, Input, Button, Card, Select, Space } from 'antd';
-import { LeftOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Card, Select } from 'antd';
+import { LeftOutlined, MinusCircleOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAlmacenId, setClear, setCodigo, setDescripcion } from '../../../../appRedux/actions/Maestro/Producto';
 import { listarAlmacenes } from '../../../Configuracion/Almacen/controllers';
+import { guardarProducto } from '../controllers';
 
 export const FormularioAgregar = () => {
 
@@ -15,6 +16,15 @@ export const FormularioAgregar = () => {
   useEffect(() => {
     listarAlmacenes();
   }, [])
+
+  const getFile = (e) => {
+    console.log('Upload event:', e);
+
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e.target.files[0].name;
+  };
 
   return (
     <>
@@ -42,7 +52,7 @@ export const FormularioAgregar = () => {
                 type="primary"
                 style={{ margin: 0 }}
                 htmlType="submit"
-                onClick={() => console.log(formRef.current.getFieldsValue())}
+                onClick={() => guardarProducto(formRef.current)}
               >
                 Guardar
               </Button>
@@ -131,13 +141,12 @@ export const FormularioAgregar = () => {
                     <Form.Item
                       {...restField}
                       name={[name, 'nombre']}
-                      rules={[{ required: true, message: 'Missing first name' }]}
+                      // rules={[{ required: true, message: 'Missing first name' }]}
                       style={{ margin: 0, width: 'auto' }}
                     >
                       <Input placeholder="Atributo" style={{ margin: 0 }} />
                     </Form.Item>
-                    {/* Opciones */}
-                    <Form.List name={'opciones' + key} style={{ margin: 0, width: '100%' }}>
+                    <Form.List name={[name, 'opciones']} style={{ margin: 0, width: '100%' }}>
                       {(fields, { add, remove }) => (
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                           {fields.map(({ key, name, ...restField }) => (
@@ -145,21 +154,24 @@ export const FormularioAgregar = () => {
                               <Form.Item
                                 {...restField}
                                 name={[name, 'nombre']}
-                                rules={[{ required: true, message: 'Missing first name' }]}
+                                // rules={[{ required: true, message: 'Missing first name' }]}
                                 style={{ margin: 0, width: '100%' }}
                               >
                                 <Input placeholder="Opciones" style={{ margin: 0 }} />
                               </Form.Item>
                               <Form.Item
+                                getValueFromEvent={getFile}
+                                getValue
                                 {...restField}
                                 name={[name, 'img']}
                                 rules={[{ required: true, message: 'Missing first name' }]}
                                 style={{ margin: 0, width: '100%' }}
                               >
-                                <Input placeholder="Imagen" style={{ margin: 0 }} />
+                                <Input
+                                  type="file"
+                                  accept=".jpg,.jpeg,.png"
+                                />
                               </Form.Item>
-                              {/* Opciones */}
-                              {/* TODO: Cambiar icono a trash */}
                               <MinusCircleOutlined onClick={() => remove(name)} />
                             </div>
                           ))}
@@ -171,8 +183,7 @@ export const FormularioAgregar = () => {
                         </div>
                       )}
                     </Form.List>
-                    {/* TODO: Cambiar icono a trash */}
-                    <MinusCircleOutlined onClick={() => remove(name)} style={{ marginTop: '10px' }} />
+                    <DeleteOutlined onClick={() => remove(name)} style={{ marginTop: '10px' }} />
                   </div>
                 ))}
                 <Form.Item style={{ marginTop: '20px' }}>
@@ -183,7 +194,7 @@ export const FormularioAgregar = () => {
               </>
             )}
           </Form.List>
-        </Form>
+        </Form >
       </Card >
     </>
   )

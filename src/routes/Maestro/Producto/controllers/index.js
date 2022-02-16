@@ -71,3 +71,24 @@ export const listarProductos = async () => {
     alert(error);
   }
 }
+
+export const guardarProducto = async (body) => {
+  console.log(body.getFieldsValue());
+  // const data = new FormData(body);
+  // console.log(data);
+  // try {
+  //   const response = await obtenerProductos(5, 1);
+  //   if (response.statusCode === 200) {
+  //     const body = response.body;
+  //     response.body.forEach(element => {
+  //       element.key = element._id;
+  //     });
+  //     store.dispatch(setProducto(body));
+  //   } else {
+  //     console.log('Error al listar productos');
+  //   }
+  // } catch (error) {
+  //   console.error("Error al obtener lista de productos: ", error);
+  //   alert(error);
+  // }
+}
