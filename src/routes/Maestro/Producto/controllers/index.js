@@ -45,7 +45,22 @@ export const columns = [
             className="icon icon-trash"
             style={{ fontSize: 17, color: "red" }}
             onClick={async () => {
-
+              try {
+                const response = await eliminarProducto(record._id);
+                if (response.statusCode === 200) {
+                  //Mostrar Mensaje:  Creado exitosamente
+                  message.success(response.message);
+                  listarProductos();
+                  //Redireccionar
+                  history.push('/maestro/producto');
+                } else {
+                  //Mostrar Mensaje:  Ocurrio un error
+                  message.error(response.message);
+                };
+              } catch (error) {
+                console.error("Error al eliminar el producto: ", error);
+                alert(error);
+              }
             }}
           />
         </span>
