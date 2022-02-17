@@ -1,10 +1,10 @@
-import { Divider } from 'antd';
+import { Divider, message } from 'antd';
 import { getColumnSearchProps } from '../../../../util/Utils';
 // Services
-import { obtenerProductos } from "../services/index";
+import { obtenerProductos, crearProducto, subirImagenOpcion, eliminarProducto } from "../services/index";
 //Store
-import store from '../../../../appRedux/store';
-import { setProducto } from '../../../../appRedux/actions/Maestro/Producto';
+import store, { history } from '../../../../appRedux/store';
+import { setProducto, setClear, setCargando } from '../../../../appRedux/actions/Maestro/Producto';
 
 export const columns = [
   {
@@ -44,8 +44,8 @@ export const columns = [
           <i
             className="icon icon-trash"
             style={{ fontSize: 17, color: "red" }}
-            onClick={() => {
-              //TODO: ELIMINAR
+            onClick={async () => {
+
             }}
           />
         </span>
@@ -73,22 +73,38 @@ export const listarProductos = async () => {
 }
 
 export const guardarProducto = async (body) => {
-  console.log(body.getFieldsValue());
-  // const data = new FormData(body);
-  // console.log(data);
-  // try {
-  //   const response = await obtenerProductos(5, 1);
-  //   if (response.statusCode === 200) {
-  //     const body = response.body;
-  //     response.body.forEach(element => {
-  //       element.key = element._id;
-  //     });
-  //     store.dispatch(setProducto(body));
-  //   } else {
-  //     console.log('Error al listar productos');
-  //   }
-  // } catch (error) {
-  //   console.error("Error al obtener lista de productos: ", error);
-  //   alert(error);
-  // }
+  //Loading ON
+  store.dispatch(setCargando(true));
+  try {
+    const formulario = body.getFieldsValue();
+    console.log(formulario);
+    crearProducto(formulario).then((response) => {
+      formulario.atributos.forEach(a => {
+        a.opciones.forEach(async o => {
+          if (o.img) {
+            var data = new FormData();
+            data.append("imagen", o.img);
+            await subirImagenOpcion(response.body._id, a.nombre, o.nombre, data);
+          }
+        });
+      })
+      if (response.statusCode === 201) {
+        //Mostrar Mensaje:  Creado exitosamente
+        message.success(response.message);
+        listarProductos();
+        //Redireccionar
+        history.push('/maestro/producto');
+      } else {
+        //Mostrar Mensaje:  Ocurrio un error
+        message.error(response.message);
+      };
+      //Loading OFF
+      store.dispatch(setCargando(false));
+      store.dispatch(setClear());
+    }
+    );
+  } catch (error) {
+    console.error("Error al crear producto: ", error);
+    message.error(error);
+  }
 }

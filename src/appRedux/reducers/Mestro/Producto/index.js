@@ -6,6 +6,7 @@ const initState = {
   atributosId: '',
   almacenId: [],
   producto: [],
+  cargando: false,
 };
 
 export const ProductoReducer = (state = initState, action) => {
@@ -38,6 +39,12 @@ export const ProductoReducer = (state = initState, action) => {
       return {
         ...state,
         almacenId: action.payload
+      };
+
+    case typesProducto.setCargando:
+      return {
+        ...state,
+        cargando: action.payload
       };
 
     case typesProducto.setClear:

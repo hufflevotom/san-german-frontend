@@ -1,5 +1,11 @@
 import { typesProducto } from "../../../reducers/Mestro/types/types";
 
+export const setCargando = () => {
+  return {
+    type: typesProducto.setCargando,
+  };
+};
+
 export const setClear = () => {
   return {
     type: typesProducto.setClear,

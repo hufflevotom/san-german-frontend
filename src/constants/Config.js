@@ -18,6 +18,7 @@ export const DELETE_PROVEEDOR = URL_BASE_LOCAL + '/config/proveedor/';
 //Módulo de Maestro - Productos
 export const GET_PRODUCTOS = URL_BASE_LOCAL + '/maestro/producto';
 export const CREATE_PRODUCTO = URL_BASE_LOCAL + '/maestro/producto';
+export const SUBIR_IMAGEN_OPCION = URL_BASE_LOCAL + '/maestro/producto/opcion/imagen/';
 export const GET_ID_PRODUCTO = URL_BASE_LOCAL + '/maestro/producto/';
 export const UPDATE_PRODUCTO = URL_BASE_LOCAL + '/maestro/producto/';
 export const DELETE_PRODUCTO = URL_BASE_LOCAL + '/maestro/producto/';

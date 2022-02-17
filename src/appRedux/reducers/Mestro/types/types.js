@@ -5,4 +5,5 @@ export const typesProducto = {
   setAlmacenId: '[SET] Almacen del Producto',
   setProducto: '[SET] Producto',
   setClear: '[SET] Clear',
+  setCargando: '[SET] Cargando',
 };
