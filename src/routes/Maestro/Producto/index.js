@@ -1,2 +1,2 @@
 export { ListaProductos as Producto } from "./views/ListaProductos";
-export { FormularioAgregar } from "./views/FormularioAgregar";
+export { FormularioAgregar as AgregarProducto } from "./views/FormularioAgregar";

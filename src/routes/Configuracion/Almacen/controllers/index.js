@@ -43,6 +43,7 @@ export const columns = [
   {
     title: 'Acciones',
     dataIndex: 'a',
+    width: 80,
     render: (text, record) => (
       <span>
         <span className="gx-link">
