@@ -19,9 +19,9 @@ export const setFamilia = (data) => {
   };
 };
 
-export const setCodigo = (data) => {
+export const setId = (data) => {
   return {
-    type: typesFamilia.setCodigo,
+    type: typesFamilia.setId,
     payload: data
   };
 };

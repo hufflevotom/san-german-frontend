@@ -1,7 +1,7 @@
 import { typesFamilia } from "../types/types";
 
 const initState = {
-  codigo: '',
+  id: '',
   nombre: '',
   familia: [],
   cargando: false,
@@ -15,10 +15,10 @@ export const FamiliaReducer = (state = initState, action) => {
         familia: action.payload
       };
 
-    case typesFamilia.setCodigo:
+    case typesFamilia.setId:
       return {
         ...state,
-        codigo: action.payload
+        id: action.payload
       };
 
     case typesFamilia.setNombre:
@@ -36,7 +36,7 @@ export const FamiliaReducer = (state = initState, action) => {
     case typesFamilia.setClear:
       return {
         ...state,
-        codigo: '',
+        id: '',
         nombre: '',
         familia: [],
         cargando: false

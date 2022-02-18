@@ -25,6 +25,7 @@ export const DELETE_PRODUCTO = URL_BASE_LOCAL + '/maestro/producto/';
 
 //Módulo de Maestro - Familias
 export const GET_FAMILIAS = URL_BASE_LOCAL + '/maestro/familia';
+export const GET_FAMILIA = URL_BASE_LOCAL + '/maestro/familia/';
 export const CREATE_FAMILIA = URL_BASE_LOCAL + '/maestro/familia';
 export const UPDATE_FAMILIA = URL_BASE_LOCAL + '/maestro/familia/';
 export const DELETE_FAMILIA = URL_BASE_LOCAL + '/maestro/familia/';

@@ -5,22 +5,36 @@ import { Link, useParams } from "react-router-dom";
 import { LeftOutlined } from "@ant-design/icons";
 import { Form, Input, Button, Card } from "antd";
 //Redux
-import { useDispatch } from "react-redux";
-import {
-  setClear,
-  setNombre,
-} from "../../../../appRedux/actions/Maestro/Familia";
+import { useDispatch, useSelector } from "react-redux";
+import { setClear, setNombre } from "../../../../appRedux/actions/Maestro/Familia";
 //Controllers
-import { guardarFamilia } from "../controllers";
+import { guardarFamilia, actualizarFamilia, obtenerFamilia } from "../controllers";
 
 export const Formulario = () => {
   const formRef = createRef();
   const dispatch = useDispatch();
   const { id } = useParams();
+  const { nombre } = useSelector(state => state.familia);
+
+  const llenarFormulario = async () => {
+    const response = await obtenerFamilia(id);
+    if (response) {
+      console.log(response);
+      // formRef.setFieldsValue({
+      //   nombre: response.nombre
+      // });
+    }
+  }
 
   useEffect(() => {
-    console.log(id);
-  }, [])
+    if (id) {
+      obtenerFamilia(id);
+      formRef.current.setFieldsValue({
+        id: id,
+        nombre: nombre
+      });
+    }
+  }, [id, nombre])
 
 
   return (
@@ -47,7 +61,7 @@ export const Formulario = () => {
                 </Link>
               </Button>
               <h1 style={{ margin: "0 0 0 20px", paddingTop: "3px" }}>
-                Agregar Familia
+                {id ? "Actualizar" : "Crear"} Familia
               </h1>
             </div>
             <div>
@@ -55,9 +69,15 @@ export const Formulario = () => {
                 type="primary"
                 style={{ margin: 0 }}
                 htmlType="submit"
-                onClick={() => guardarFamilia(formRef.current)}
+                onClick={() => {
+                  if (id) {
+                    actualizarFamilia(formRef.current);
+                  } else {
+                    guardarFamilia(formRef.current);
+                  }
+                }}
               >
-                Guardar
+                {id ? "Actualizar" : "Guardar"}
               </Button>
             </div>
           </div>
@@ -79,6 +99,15 @@ export const Formulario = () => {
         >
           <Form.Item
             label="Nombre"
+            name="id"
+            style={{ display: "none" }}
+          >
+            <Input
+              placeholder="Ingrese el id de la familia"
+            />
+          </Form.Item>
+          <Form.Item
+            label="Nombre"
             name="nombre"
             rules={[
               {
@@ -89,7 +118,7 @@ export const Formulario = () => {
           >
             <Input
               placeholder="Ingrese el nombre de la familia"
-              onChange={(e) => dispatch(setNombre(e.target.value))}
+            // onChange={(e) => dispatch(setNombre(e.target.value))}
             />
           </Form.Item>
         </Form>

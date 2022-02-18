@@ -1,22 +1,27 @@
-import { GET_FAMILIAS, CREATE_FAMILIA, UPDATE_FAMILIA, DELETE_FAMILIA } from "../../../../constants/Config"
+import { GET_FAMILIAS, GET_FAMILIA, CREATE_FAMILIA, UPDATE_FAMILIA, DELETE_FAMILIA } from "../../../../constants/Config"
 import { httpClient } from "../../../../util/Api"
 
-export const obtenerFamilias = async () => {
+export const getFamilias = async () => {
   const response = await httpClient.get(GET_FAMILIAS);
   return response.data;
 }
 
-export const crearFamilia = async (body) => {
+export const getFamilia = async (id) => {
+  const response = await httpClient.get(GET_FAMILIA + id);
+  return response.data;
+}
+
+export const createFamilia = async (body) => {
   const response = await httpClient.post(CREATE_FAMILIA, body);
   return response.data;
 }
 
-export const actualizarFamilia = async (id) => {
-  const response = await httpClient.post(UPDATE_FAMILIA + id);
+export const updateFamilia = async (id, body) => {
+  const response = await httpClient.put(UPDATE_FAMILIA + id, body);
   return response.data;
 }
 
-export const eliminarFamilia = async (id) => {
+export const deleteFamilia = async (id) => {
   const response = await httpClient.delete(DELETE_FAMILIA + id);
   return response.data;
 }
