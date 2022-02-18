@@ -1,8 +1,10 @@
+//Ant Design
 import { Divider, message } from 'antd';
+//Utils
 import { getColumnSearchProps } from '../../../../util/Utils';
-// Services
+//Services
 import { obtenerFamilias, crearFamilia, eliminarFamilia } from "../services/index";
-//Store
+//Redux
 import store, { history } from '../../../../appRedux/store';
 import { setFamilia, setClear, setCargando } from '../../../../appRedux/actions/Maestro/Familia';
 
@@ -24,7 +26,7 @@ export const columns = [
             className="icon icon-edit"
             style={{ fontSize: 16, color: 'orange' }}
             onClick={() => {
-              //TODO: EDITAR
+              history.push('/maestro/familia/editar/' + record._id);
             }}
           />
         </span>

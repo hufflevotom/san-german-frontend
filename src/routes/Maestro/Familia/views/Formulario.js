@@ -1,6 +1,6 @@
 //React
-import React, { createRef } from "react";
-import { Link } from "react-router-dom";
+import React, { createRef, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 //Ant Design
 import { LeftOutlined } from "@ant-design/icons";
 import { Form, Input, Button, Card } from "antd";
@@ -13,9 +13,15 @@ import {
 //Controllers
 import { guardarFamilia } from "../controllers";
 
-export const FormularioAgregar = () => {
+export const Formulario = () => {
   const formRef = createRef();
   const dispatch = useDispatch();
+  const { id } = useParams();
+
+  useEffect(() => {
+    console.log(id);
+  }, [])
+
 
   return (
     <>

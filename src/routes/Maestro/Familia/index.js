@@ -1,2 +1,2 @@
-export { ListaFamilias as Familias } from "./views/ListaFamilias";
-export { FormularioAgregar as AgregarFamilia } from "./views/FormularioAgregar";
+export { Lista as ListaFamilias } from "./views/Lista";
+export { Formulario as FormularioFamilia } from "./views/Formulario";

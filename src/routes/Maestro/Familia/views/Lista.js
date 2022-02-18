@@ -10,7 +10,7 @@ import '../styles/ListaFamilias.css';
 //Controlador
 import { columns, listarFamilias } from '../controllers';
 
-export const ListaFamilias = () => {
+export const Lista = () => {
 
   const { familia, cargando } = useSelector(state => state.familia);
 
