@@ -7,3 +7,11 @@ export const typesProducto = {
   setClear: '[SET] Clear',
   setCargando: '[SET] Cargando',
 };
+
+export const typesFamilia = {
+  setCodigo: '[SET] Código del Producto',
+  setNombre: '[SET] Nombre del Producto',
+  setFamilia: '[SET] Familia',
+  setClear: '[SET] Clear',
+  setCargando: '[SET] Cargando',
+};

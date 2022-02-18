@@ -20,13 +20,13 @@ export const ProductoReducer = (state = initState, action) => {
     case typesProducto.setCodigo:
       return {
         ...state,
-        descripcion: action.payload
+        codigo: action.payload
       };
 
     case typesProducto.setDescripcion:
       return {
         ...state,
-        codigo: action.payload
+        descripcion: action.payload
       };
 
     case typesProducto.setAtributosId:
@@ -50,8 +50,12 @@ export const ProductoReducer = (state = initState, action) => {
     case typesProducto.setClear:
       return {
         ...state,
-        ubicacion: '',
-        nombre: '',
+        codigo: '',
+        descripcion: '',
+        atributosId: '',
+        almacenId: [],
+        producto: [],
+        cargando: false
       };
 
     default:
