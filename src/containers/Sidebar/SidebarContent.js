@@ -62,7 +62,7 @@ const SidebarContent = ({ sidebarCollapsed, setSidebarCollapsed }) => {
 
             <MenuItemGroup key="modulos" className="gx-menu-group" title="Módulos">
               <SubMenu key="configuracion" popupClassName={getNavStyleSubMenuClass(navStyle)}
-                title={<span> <i className="icon icon-dasbhoard" />
+                title={<span> <i className="icon icon-extra-components" />
                   <span>Configuración</span></span>}>
 
                 <Menu.Item key="configuracion/almacen">
@@ -72,7 +72,7 @@ const SidebarContent = ({ sidebarCollapsed, setSidebarCollapsed }) => {
                 </Menu.Item>
 
                 <Menu.Item key="configuracion/proveedor">
-                  <Link to="/configuracion/proveedor"><i className="icon icon-widgets" />
+                  <Link to="/configuracion/proveedor"><i className="icon icon-profile" />
                     <span>Proveedor</span>
                   </Link>
                 </Menu.Item>
@@ -81,15 +81,15 @@ const SidebarContent = ({ sidebarCollapsed, setSidebarCollapsed }) => {
             </MenuItemGroup>
 
             <SubMenu key="maestro" popupClassName={getNavStyleSubMenuClass(navStyle)}
-              title={<span> <i className="icon icon-dasbhoard" />
+              title={<span> <i className="icon icon-editor" />
                 <span>Maestro</span></span>}>
               <Menu.Item key="maestro/familia">
-                <Link to="/maestro/familia"><i className="icon icon-widgets" />
+                <Link to="/maestro/familia"><i className="icon icon-family" />
                   <span>Familia</span>
                 </Link>
               </Menu.Item>
               <Menu.Item key="maestro/producto">
-                <Link to="/maestro/producto"><i className="icon icon-widgets" />
+                <Link to="/maestro/producto"><i className="icon icon-product-list" />
                   <span>Producto</span>
                 </Link>
               </Menu.Item>
@@ -97,11 +97,11 @@ const SidebarContent = ({ sidebarCollapsed, setSidebarCollapsed }) => {
             </SubMenu>
 
             <SubMenu key="logistica" popupClassName={getNavStyleSubMenuClass(navStyle)}
-              title={<span> <i className="icon icon-dasbhoard" />
+              title={<span> <i className="icon icon-default-timeline" />
                 <span>Logística</span></span>}>
               <Menu.Item key="logistica/ordenCompra">
-                <Link to="/logistica/ordenCompra"><i className="icon icon-widgets" />
-                  <span>Orden de Compra</span>
+                <Link to="/logistica/ordenCompra"><i className="icon icon-orders" />
+                  <span>O. Compra</span>
                 </Link>
               </Menu.Item>
 
