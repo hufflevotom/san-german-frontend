@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 
 import CustomScrollbars from "util/CustomScrollbars";
 import SidebarLogo from "./SidebarLogo";
-import UserProfile from "./UserProfile";
-import AppsNavigation from "./AppsNavigation";
+// import UserProfile from "./UserProfile";
+// import AppsNavigation from "./AppsNavigation";
 import {
-  NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
+  // NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
   NAV_STYLE_NO_HEADER_MINI_SIDEBAR,
   THEME_TYPE_LITE
 } from "../../constants/ThemeSetting";
@@ -21,12 +21,12 @@ const SidebarContent = ({ sidebarCollapsed, setSidebarCollapsed }) => {
   const { navStyle, themeType } = useSelector(({ settings }) => settings);
   const pathname = useSelector(({ common }) => common.pathname);
 
-  const getNoHeaderClass = (navStyle) => {
-    if (navStyle === NAV_STYLE_NO_HEADER_MINI_SIDEBAR || navStyle === NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR) {
-      return "gx-no-header-notifications";
-    }
-    return "";
-  };
+  // const getNoHeaderClass = (navStyle) => {
+  //   if (navStyle === NAV_STYLE_NO_HEADER_MINI_SIDEBAR || navStyle === NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR) {
+  //     return "gx-no-header-notifications";
+  //   }
+  //   return "";
+  // };
 
   const getNavStyleSubMenuClass = (navStyle) => {
     if (navStyle === NAV_STYLE_NO_HEADER_MINI_SIDEBAR) {
