@@ -96,6 +96,17 @@ const SidebarContent = ({ sidebarCollapsed, setSidebarCollapsed }) => {
 
             </SubMenu>
 
+            <SubMenu key="logistica" popupClassName={getNavStyleSubMenuClass(navStyle)}
+              title={<span> <i className="icon icon-dasbhoard" />
+                <span>Logística</span></span>}>
+              <Menu.Item key="logistica/ordenCompra">
+                <Link to="/logistica/ordenCompra"><i className="icon icon-widgets" />
+                  <span>Orden de Compra</span>
+                </Link>
+              </Menu.Item>
+
+            </SubMenu>
+
 
           </Menu>
         </CustomScrollbars>

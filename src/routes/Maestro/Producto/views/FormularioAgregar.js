@@ -15,15 +15,18 @@ import {
   setDescripcion,
 } from "../../../../appRedux/actions/Maestro/Producto";
 import { listarAlmacenes } from "../../../Configuracion/Almacen/controllers";
+import { listarFamilias } from "../../Familia/controllers";
 import { guardarProducto } from "../controllers";
 
 export const FormularioAgregar = () => {
   const formRef = createRef();
   const dispatch = useDispatch();
   const { almacen } = useSelector((state) => state.almacen);
+  const { familia } = useSelector((state) => state.familia);
 
   useEffect(() => {
     listarAlmacenes();
+    listarFamilias();
   }, []);
 
   const getFile = (e) => {
@@ -132,12 +135,37 @@ export const FormularioAgregar = () => {
             >
               {almacen
                 ? almacen.map((element) => {
-                    return (
-                      <Select.Option key={element._id} value={element._id}>
-                        {element.nombre}
-                      </Select.Option>
-                    );
-                  })
+                  return (
+                    <Select.Option key={element._id} value={element._id}>
+                      {element.nombre}
+                    </Select.Option>
+                  );
+                })
+                : null}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="Familia"
+            name="familiaId"
+            rules={[
+              {
+                required: true,
+                message: "La familia es requerida",
+              },
+            ]}
+          >
+            <Select
+              placeholder="Seleccione la familia"
+              onChange={(e) => dispatch(setAlmacenId(e))}
+            >
+              {familia
+                ? familia.map((element) => {
+                  return (
+                    <Select.Option key={element._id} value={element._id}>
+                      {element.nombre}
+                    </Select.Option>
+                  );
+                })
                 : null}
             </Select>
           </Form.Item>

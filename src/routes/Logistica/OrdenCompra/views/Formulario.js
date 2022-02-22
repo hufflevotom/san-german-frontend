@@ -6,9 +6,9 @@ import { LeftOutlined } from "@ant-design/icons";
 import { Form, Input, Button, Card } from "antd";
 //Redux
 import { useDispatch, useSelector } from "react-redux";
-import { setClear } from "../../../../appRedux/actions/Maestro/Familia";
+// import { setClear } from "../../../../appRedux/actions/Maestro/Familia";
 //Controllers
-import { guardarFamilia, actualizarFamilia, obtenerFamilia } from "../controllers";
+// import { guardarFamilia, actualizarFamilia, obtenerFamilia } from "../controllers";
 
 export const Formulario = () => {
   const formRef = createRef();
@@ -18,7 +18,7 @@ export const Formulario = () => {
 
   useEffect(() => {
     if (id) {
-      obtenerFamilia(id);
+      // obtenerFamilia(id);
       formRef.current.setFieldsValue({
         id: id,
         nombre: nombre
@@ -42,9 +42,9 @@ export const Formulario = () => {
               <Button
                 type="link"
                 style={{ margin: 0, padding: 0 }}
-                onClick={() => dispatch(setClear())}
+              // onClick={() => dispatch(setClear())}
               >
-                <Link to="/maestro/familia">
+                <Link to="/logistica/ordenCompra">
                   <LeftOutlined
                     style={{ fontSize: "16px", margin: 0, paddingTop: "5px" }}
                   />
@@ -61,9 +61,9 @@ export const Formulario = () => {
                 htmlType="submit"
                 onClick={() => {
                   if (id) {
-                    actualizarFamilia(formRef.current);
+                    // actualizarFamilia(formRef.current);
                   } else {
-                    guardarFamilia(formRef.current);
+                    // guardarFamilia(formRef.current);
                   }
                 }}
               >
