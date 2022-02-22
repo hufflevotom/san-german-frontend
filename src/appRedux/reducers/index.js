@@ -8,6 +8,8 @@ import { FamiliaReducer } from './Mestro/Familia';
 import { AlmacenReducer } from './Configuracion/Almacen';
 import { ProveedorReducer } from './Configuracion/Proveedor';
 
+import { OrdenCompraReducer } from './Logistica/OrdenCompra';
+
 const createRootReducer = (history) => combineReducers({
   router: connectRouter(history),
   settings: Settings,
@@ -16,6 +18,7 @@ const createRootReducer = (history) => combineReducers({
   producto: ProductoReducer,
   familia: FamiliaReducer,
   proveedor: ProveedorReducer,
+  ordenCompra: OrdenCompraReducer,
 });
 
 export default createRootReducer;
