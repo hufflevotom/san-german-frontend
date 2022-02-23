@@ -153,3 +153,116 @@ export const actualizarOrdenCompra = async (body) => {
     message.error(error);
   }
 }
+
+
+export const onSearchCOD = async searchText => {
+  // var cod = formRef.current.getFieldValue('codPaciente');
+  // if (cod ? cod.length >= 4 : false) {
+    // setPeticion(true);
+    // setOptionsCOD();
+    // const respuesta = await httpClient.post(
+    //   'camas/getPacientes',
+    //   {
+    //     codPaciente: cod,
+    //     nombre: '',
+    //   },
+    //   { cancelToken: cancelSource.token }
+    // );
+    // var array1 = respuesta.data.data;
+    // for (let i = 0; i < array1.length; i++) {
+    //   if (array1[i].asignado === "1") {
+    //     delete array1[i];
+    //   } else {
+    //     array1[i].key = array1[i].cod_paciente;
+    //     array1[i].value = array1[i].cod_paciente;
+    //     array1[i].label = array1[i].cod_paciente;
+    //   }
+    // }
+    // setOptionsNOM();
+    // setOptionsCOD(array1);
+  // } else {
+    // if (peticion) {
+    //   cancelSource.cancel('COD Cancelado');
+    //   setCancelSource(axios.CancelToken.source());
+    // }
+  // }
+};
+
+export const onSelectCOD = data => {
+  // optionsCOD.forEach(element => {
+  //   if (element.key === data) {
+  //     formRef.current.setFieldsValue({
+  //       codPaciente: element.cod_paciente,
+  //       nombre: `${element.nom_cli + ' ' + element.ape_pat_cli + ' ' + element.ape_mat_cli}`,
+  //     });
+  //     setPaciente(element);
+  //     setValueCOD(data);
+  //   }
+  // });
+};
+
+export const onChangeCOD = data => {
+  if (data.length <= 3) {
+    // setOptionsCOD([]);
+  }
+};
+
+
+
+export const onSearchNOM = async searchText => {
+  // var nombre = formRef.current.getFieldValue('nombre');
+  // if (nombre ? nombre.length >= 4 : false) {
+  //   setPeticion(true);
+  //   setOptionsNOM();
+  //   const respuesta = await httpClient.post(
+  //     'camas/getPacientes',
+  //     {
+  //       codPaciente: '',
+  //       nombre: nombre,
+  //     },
+  //     { cancelToken: cancelSource.token }
+  //   );
+  //   var array2 = respuesta.data.data;
+  //   console.log(respuesta.data.data);
+  //   for (let i = 0; i < array2.length; i++) {
+  //     if (array2[i].asignado === "1") {
+  //       delete array2[i];
+  //     } else {
+  //       array2[i].key = array2[i].cod_paciente;
+  //       array2[i].value = array2[i].cod_paciente;
+  //       array2[i].label = (
+  //         <div>
+  //           {array2[i].nom_cli}
+  //           <div style={{ color: '#a3a3a3' }}>{' ' + array2[i].ape_pat_cli + ' ' + array2[i].ape_mat_cli}</div>
+  //         </div>
+  //       );
+  //     }
+  //   }
+  //   setOptionsCOD();
+  //   setOptionsNOM(array2);
+  // } else {
+  //   if (peticion) {
+  //     cancelSource.cancel('NOM ancelado');
+  //     setCancelSource(axios.CancelToken.source());
+  //   }
+  // }
+};
+
+export const onSelectNOM = data => {
+  // optionsNOM.forEach(element => {
+  //   if (element.key === data) {
+  //     formRef.current.setFieldsValue({
+  //       codPaciente: element.cod_paciente,
+  //       nombre: `${element.nom_cli + ' ' + element.ape_pat_cli + ' ' + element.ape_mat_cli}`,
+  //     });
+  //     setPaciente(element);
+  //     setValueNOM(data);
+  //   }
+  // });
+};
+
+export const onChangeNOM = data => {
+  // if (data.length <= 3) {
+  //   setOptionsNOM([]);
+  // }
+};
