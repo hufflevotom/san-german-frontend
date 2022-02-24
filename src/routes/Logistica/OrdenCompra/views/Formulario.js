@@ -7,6 +7,7 @@ import {
   MinusCircleOutlined,
   PlusOutlined,
   DeleteOutlined,
+  CaretRightOutlined
 } from "@ant-design/icons";
 import { Form, Input, Button, Card, Col, Row, Collapse, AutoComplete, Select } from "antd";
 //Redux
@@ -187,6 +188,7 @@ export const Formulario = () => {
                 <Collapse
                   defaultActiveKey={['0']}
                   style={{ margin: 0, padding: 0, width: "100%" }}
+                  collapsible="disabled"
                   ghost
                 >
                   {fields.map(({ key, name, ...restField }) => (
@@ -298,6 +300,7 @@ export const Formulario = () => {
                       }
                       extra={genExtra(remove, name)}
                       style={{ margin: 0, padding: 0, width: "100%" }}
+                      expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
                     >
                       <Row style={{ margin: '0 0 0 20%' }}>
                         <Col xs={10}>
@@ -310,64 +313,57 @@ export const Formulario = () => {
                           Imagen
                         </Col>
                       </Row>
-                      <Form.List
-                        name={[name, "opciones"]}
-                        style={{ margin: '0 0 0 20%' }}
+                      <div
+                        style={{ display: "flex", flexDirection: "column" }}
                       >
-                        {(fields, { add, remove }) => (
-                          <div
-                            style={{ display: "flex", flexDirection: "column" }}
-                          >
-                            {fields.map(({ key, name, ...restField }) => (
-                              <Row style={{ margin: '10px 0 10px 20%', display: 'flex', alignItems: "center" }}>
-                                <Col xs={10}>
-                                  {name}
-                                </Col>
-                                <Col xs={10}>
-                                  <Form.Item
-                                    {...restField}
-                                    name={[name, "nombre"]}
-                                    // rules={[{ required: true, message: 'Missing first name' }]}
-                                    style={{ margin: 0, width: "100%" }}
-                                  >
-                                    <Select
-                                      style={{ width: '100% ', margin: '0' }}
-                                      showSearch
-                                      placeholder="Opcion"
-                                      optionFilterProp="children"
-                                      // onChange={onChangeHabitación}
-                                      onSearch={() => { }}
-                                      filterOption={(input, option) =>
-                                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                      }
-                                    >
-                                      <Select.Option value={"a"}>a</Select.Option>
-                                      <Select.Option value={"a"}>a</Select.Option>
-                                    </Select>
-                                  </Form.Item>
-                                </Col>
-                                <Col xs={4} style={{ display: 'flex', gap: '10px' }}>
-                                  Icon
-                                  <MinusCircleOutlined
-                                    onClick={() => remove(name)}
-                                  />
-                                </Col>
-                              </Row>
-                            ))}
-                            <Form.Item style={{ margin: '10px 0 10px 20%' }}>
-                              <Button
-                                type="dashed"
-                                onClick={() => add()}
-                                block
-                                icon={<PlusOutlined />}
-                                style={{ margin: 0 }}
+                        {fields.map(({ key, name, ...restField }) => (
+                          <Row style={{ margin: '10px 0 10px 20%', display: 'flex', alignItems: "center" }}>
+                            <Col xs={10}>
+                              {name}
+                            </Col>
+                            <Col xs={10}>
+                              <Form.Item
+                                {...restField}
+                                name={[name, "nombre"]}
+                                // rules={[{ required: true, message: 'Missing first name' }]}
+                                style={{ margin: 0, width: "100%" }}
                               >
-                                Agregar Opciones
-                              </Button>
-                            </Form.Item>
-                          </div>
-                        )}
-                      </Form.List>
+                                <Select
+                                  style={{ width: '100% ', margin: '0' }}
+                                  showSearch
+                                  placeholder="Opcion"
+                                  optionFilterProp="children"
+                                  // onChange={onChangeHabitación}
+                                  onSearch={() => { }}
+                                  filterOption={(input, option) =>
+                                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                  }
+                                >
+                                  <Select.Option value={"a"}>a</Select.Option>
+                                  <Select.Option value={"a"}>a</Select.Option>
+                                </Select>
+                              </Form.Item>
+                            </Col>
+                            <Col xs={4} style={{ display: 'flex', gap: '10px' }}>
+                              Icon
+                              {/* <MinusCircleOutlined
+                                onClick={() => remove(name)}
+                              /> */}
+                            </Col>
+                          </Row>
+                        ))}
+                        {/* <Form.Item style={{ margin: '10px 0 10px 20%' }}>
+                          <Button
+                            type="dashed"
+                            onClick={() => add()}
+                            block
+                            icon={<PlusOutlined />}
+                            style={{ margin: 0 }}
+                          >
+                            Agregar Opciones
+                          </Button>
+                        </Form.Item> */}
+                      </div>
                     </Collapse.Panel>
                   ))}
                 </Collapse>
