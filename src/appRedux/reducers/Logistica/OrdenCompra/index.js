@@ -4,7 +4,7 @@ const initState = {
   // codigo: '',
   // descripcion: '',
   // atributosId: '',
-  // almacenId: [],
+  opciones: [],
   ordenCompra: [],
   cargando: false,
 };
@@ -35,11 +35,11 @@ export const OrdenCompraReducer = (state = initState, action) => {
     //     atributosId: action.payload
     //   };
 
-    // case typesOrdenCompra.setAlmacenId:
-    //   return {
-    //     ...state,
-    //     almacenId: action.payload
-    //   };
+    case typesOrdenCompra.setOpciones:
+      return {
+        ...state,
+        opciones: action.payload
+      };
 
     case typesOrdenCompra.setCargando:
       return {
@@ -53,7 +53,7 @@ export const OrdenCompraReducer = (state = initState, action) => {
         // codigo: '',
         // descripcion: '',
         // atributosId: '',
-        // almacenId: [],
+        opciones: [],
         ordenCompra: [],
         cargando: false
       };

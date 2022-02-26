@@ -12,7 +12,7 @@ import {
 import { Form, Input, Button, Card, Col, Row, Collapse, AutoComplete, Select } from "antd";
 //Redux
 import { useDispatch, useSelector } from "react-redux";
-import { onChangeCOD, onSearchCOD, onSelectCOD, onChangeNOM, onSearchNOM, onSelectNOM } from "../controllers";
+import { onChangeCOD, onSelectCOD, onChangeNOM, onSearchNOM } from "../controllers";
 // import { setClear } from "../../../../appRedux/actions/Maestro/Familia";
 //Controllers
 // import { guardarFamilia, actualizarFamilia, obtenerFamilia } from "../controllers";
@@ -24,22 +24,22 @@ export const Formulario = () => {
   const formRef = createRef();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { nombre } = useSelector(state => state.familia);
+  const { opciones } = useSelector(state => state.ordenCompra);
 
   const [valueCOD, setValueCOD] = useState('');
-  const [optionsCOD, setOptionsCOD] = useState([]);
+  const [opcionSeleccionada, setOpcionSeleccionada] = useState([]);
   const [valueNOM, setValueNOM] = useState('');
   const [optionsNOM, setOptionsNOM] = useState([]);
 
-  useEffect(() => {
-    if (id) {
-      // obtenerFamilia(id);
-      formRef.current.setFieldsValue({
-        id: id,
-        nombre: nombre
-      });
-    }
-  }, [id, nombre])
+  // useEffect(() => {
+  //   if (id) {
+  //     // obtenerFamilia(id);
+  //     formRef.current.setFieldsValue({
+  //       id: id,
+  //       nombre: nombre
+  //     });
+  //   }
+  // }, [id, nombre])
 
   const genExtra = (remove, name) => (
     <DeleteOutlined
@@ -47,6 +47,21 @@ export const Formulario = () => {
       style={{ marginTop: "10px" }}
     />
   )
+
+
+  const onSelectNOM = (data, name) => {
+    const atributos = formRef.current.getFieldValue('atributos');
+    console.log(atributos);
+    opciones.forEach(element => {
+      if (element.key === data) {
+        atributos[name[0]].desProducto = element.descripcion;
+        // atributos[name[0]].desProducto = `${element.descripcion + ' ' + 'element.ape_pat_cli' + ' ' + 'element.ape_mat_cli'}`;
+        formRef.current.setFieldsValue({ atributos: atributos })
+        setOpcionSeleccionada(...opcionSeleccionada,);
+        // setValueNOM(data);
+      }
+    });
+  };
 
   return (
     <>
@@ -188,7 +203,7 @@ export const Formulario = () => {
                 <Collapse
                   defaultActiveKey={['0']}
                   style={{ margin: 0, padding: 0, width: "100%" }}
-                  collapsible="disabled"
+                  // collapsible="disabled"
                   ghost
                 >
                   {fields.map(({ key, name, ...restField }) => (
@@ -202,16 +217,16 @@ export const Formulario = () => {
                             margin: "0 20px 0 20px",
                             padding: "0",
                             alignItems: "start",
+                            width: "100%"
                           }}
                         >
-                          <Col xs={3} style={{ padding: "0 5px 0 5px" }}>
+                          {/* <Col xs={3} style={{ padding: "0 5px 0 5px" }}>
                             <Form.Item
                               {...restField}
                               name={[name, "codProducto"]}
                               // rules={[{ required: true, message: 'Missing first name' }]}
-                              style={{ margin: 0, width: "auto" }}
+                              style={{ margin: 0, width: "100%" }}
                             >
-                              {/* <Input placeholder="Código de Producto" style={{ margin: 0 }} /> */}
                               <AutoComplete
                                 value={valueCOD}
                                 options={optionsCOD}
@@ -222,20 +237,20 @@ export const Formulario = () => {
                                 placeholder="Código de Producto"
                               />
                             </Form.Item>
-                          </Col>
-                          <Col xs={10} style={{ padding: "0 5px 0 5px" }}>
+                          </Col> */}
+                          <Col xs={13} style={{ padding: "0 5px 0 5px" }}>
                             <Form.Item
                               {...restField}
                               name={[name, "desProducto"]}
                               // rules={[{ required: true, message: 'Missing first name' }]}
-                              style={{ margin: 0, width: "auto" }}
+                              style={{ margin: 0, width: "100%" }}
                             >
                               {/* <Input placeholder="Descripción del producto" style={{ margin: 0 }} /> */}
                               <AutoComplete
-                                value={valueNOM}
-                                options={optionsNOM}
+                                // value={valueNOM}
+                                options={opciones}
                                 onSearch={onSearchNOM}
-                                onSelect={onSelectNOM}
+                                onSelect={(e) => onSelectNOM(e, [name, "desProducto"])}
                                 onChange={onChangeNOM}
                                 style={{ width: '100%' }}
                                 placeholder="Descripción del producto"
@@ -316,42 +331,44 @@ export const Formulario = () => {
                       <div
                         style={{ display: "flex", flexDirection: "column" }}
                       >
-                        {fields.map(({ key, name, ...restField }) => (
-                          <Row style={{ margin: '10px 0 10px 20%', display: 'flex', alignItems: "center" }}>
-                            <Col xs={10}>
-                              {name}
-                            </Col>
-                            <Col xs={10}>
-                              <Form.Item
-                                {...restField}
-                                name={[name, "nombre"]}
-                                // rules={[{ required: true, message: 'Missing first name' }]}
-                                style={{ margin: 0, width: "100%" }}
-                              >
-                                <Select
-                                  style={{ width: '100% ', margin: '0' }}
-                                  showSearch
-                                  placeholder="Opcion"
-                                  optionFilterProp="children"
-                                  // onChange={onChangeHabitación}
-                                  onSearch={() => { }}
-                                  filterOption={(input, option) =>
-                                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                                  }
+                        {
+                          opcionSeleccionada.map(({ key, name, ...restField }) => (
+                            <Row style={{ margin: '10px 0 10px 20%', display: 'flex', alignItems: "center" }}>
+                              <Col xs={10}>
+                                {name}
+                              </Col>
+                              <Col xs={10}>
+                                <Form.Item
+                                  {...restField}
+                                  name={[name, "nombre"]}
+                                  // rules={[{ required: true, message: 'Missing first name' }]}
+                                  style={{ margin: 0, width: "100%" }}
                                 >
-                                  <Select.Option value={"a"}>a</Select.Option>
-                                  <Select.Option value={"a"}>a</Select.Option>
-                                </Select>
-                              </Form.Item>
-                            </Col>
-                            <Col xs={4} style={{ display: 'flex', gap: '10px' }}>
-                              Icon
-                              {/* <MinusCircleOutlined
+                                  <Select
+                                    style={{ width: '100% ', margin: '0' }}
+                                    showSearch
+                                    placeholder="Opcion"
+                                    optionFilterProp="children"
+                                    // onChange={onChangeHabitación}
+                                    onSearch={() => { }}
+                                    filterOption={(input, option) =>
+                                      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                  >
+                                    <Select.Option value={"a"}>a</Select.Option>
+                                    <Select.Option value={"a"}>a</Select.Option>
+                                  </Select>
+                                </Form.Item>
+                              </Col>
+                              <Col xs={4} style={{ display: 'flex', gap: '10px' }}>
+                                Icon
+                                {/* <MinusCircleOutlined
                                 onClick={() => remove(name)}
                               /> */}
-                            </Col>
-                          </Row>
-                        ))}
+                              </Col>
+                            </Row>
+                          ))
+                        }
                         {/* <Form.Item style={{ margin: '10px 0 10px 20%' }}>
                           <Button
                             type="dashed"

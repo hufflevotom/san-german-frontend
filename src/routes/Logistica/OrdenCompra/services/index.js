@@ -1,27 +1,27 @@
-import { GET_FAMILIAS, GET_FAMILIA, CREATE_FAMILIA, UPDATE_FAMILIA, DELETE_FAMILIA } from "../../../../constants/Config"
+import { GET_ORDENES_COMPRA, GET_ORDEN_COMPRA, CREATE_ORDEN_COMPRA, UPDATE_ORDEN_COMPRA, DELETE_ORDEN_COMPRA } from "../../../../constants/Config"
 import { httpClient } from "../../../../util/Api"
 
-export const getFamilias = async () => {
-  const response = await httpClient.get(GET_FAMILIAS);
+export const getOrdenesCompra = async () => {
+  const response = await httpClient.get(GET_ORDENES_COMPRA);
   return response.data;
 }
 
-export const getFamilia = async (id) => {
-  const response = await httpClient.get(GET_FAMILIA + id);
+export const getOrdenCompra = async (id) => {
+  const response = await httpClient.get(GET_ORDEN_COMPRA + id);
   return response.data;
 }
 
-export const createFamilia = async (body) => {
-  const response = await httpClient.post(CREATE_FAMILIA, body);
+export const createOrdenCompra = async (body) => {
+  const response = await httpClient.post(CREATE_ORDEN_COMPRA, body);
   return response.data;
 }
 
-export const updateFamilia = async (id, body) => {
-  const response = await httpClient.put(UPDATE_FAMILIA + id, body);
+export const updateOrdenCompra = async (id, body) => {
+  const response = await httpClient.put(UPDATE_ORDEN_COMPRA + id, body);
   return response.data;
 }
 
-export const deleteFamilia = async (id) => {
-  const response = await httpClient.delete(DELETE_FAMILIA + id);
+export const deleteOrdenCompra = async (id) => {
+  const response = await httpClient.delete(DELETE_ORDEN_COMPRA + id);
   return response.data;
 }

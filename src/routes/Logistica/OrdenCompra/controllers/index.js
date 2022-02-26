@@ -3,10 +3,11 @@ import { Divider, message } from 'antd';
 //Utils
 import { getColumnSearchProps } from '../../../../util/Utils';
 //Services
-import { getFamilias, getFamilia, createFamilia, deleteFamilia, updateFamilia } from "../services/index";
+import { getOrdenesCompra, getOrdenCompra, createOrdenCompra, deleteOrdenCompra, updateOrdenCompra } from "../services/index";
+import { dataBusqueda } from '../services/data';
 //Redux
 import store, { history } from '../../../../appRedux/store';
-import { setFamilia, setClear, setCargando, setNombre, setId } from '../../../../appRedux/actions/Maestro/Familia';
+import { setClear, setCargando, setOpciones, setOrdenCompra } from '../../../../appRedux/actions/Logistica/OrdenCompra';
 
 export const columns = [
   {
@@ -37,7 +38,7 @@ export const columns = [
             style={{ fontSize: 17, color: "red" }}
             onClick={async () => {
               try {
-                const response = await deleteFamilia(record._id);
+                const response = await deleteOrdenCompra(record._id);
                 if (response.statusCode === 200) {
                   //Mostrar Mensaje: Eliminado exitosamente
                   message.success(response.message);
@@ -64,127 +65,127 @@ export const listarOrdenesCompra = async () => {
   try {
     //Loading ON
     store.dispatch(setCargando(true));
-    const response = await getFamilias();
+    const response = await getOrdenesCompra();
     if (response.statusCode === 200) {
       const body = response.body;
       response.body.forEach(element => {
         element.key = element._id;
       });
-      store.dispatch(setFamilia(body));
+      store.dispatch(setOrdenCompra(body));
     } else {
-      console.log('Error al listar productos');
+      console.log('Error al listar las Ordenes de Compra');
     }
     //Loading OFF
     store.dispatch(setCargando(false));
   } catch (error) {
-    console.error("Error al obtener lista de productos: ", error);
+    console.error("Error al obtener lista de Ordenes de Compra: ", error);
     alert(error);
   }
 }
 
-export const obtenerOrdenCompra = async (id) => {
-  try {
-    //Loading ON
-    store.dispatch(setCargando(true));
-    const response = await getFamilia(id);
-    if (response.statusCode === 200) {
-      const body = response.body;
-      store.dispatch(setNombre(body.nombre));
-      store.dispatch(setId(body._id));
-      // return body;
-    }
-    //Loading OFF
-    store.dispatch(setCargando(false));
-  } catch (error) {
-    console.error("Error al obtener lista de productos: ", error);
-    alert(error);
-  }
-}
+// export const obtenerOrdenCompra = async (id) => {
+//   try {
+//     //Loading ON
+//     store.dispatch(setCargando(true));
+//     const response = await getFamilia(id);
+//     if (response.statusCode === 200) {
+//       const body = response.body;
+//       store.dispatch(setNombre(body.nombre));
+//       store.dispatch(setId(body._id));
+//       // return body;
+//     }
+//     //Loading OFF
+//     store.dispatch(setCargando(false));
+//   } catch (error) {
+//     console.error("Error al obtener lista de productos: ", error);
+//     alert(error);
+//   }
+// }
 
 export const guardarOrdenCompra = async (body) => {
   //Loading ON
-  store.dispatch(setCargando(true));
-  try {
-    const formulario = body.getFieldsValue();
-    console.log(formulario);
-    const response = await createFamilia(formulario);
-    if (response.statusCode === 200) {
-      //Mostrar Mensaje:  Creado exitosamente
-      message.success(response.message);
-      listarOrdenesCompra();
-      //Redireccionar
-      history.push('/maestro/familia');
-    } else {
-      //Mostrar Mensaje:  Ocurrio un error
-      message.error(response.message);
-    };
-    //Loading OFF
-    store.dispatch(setCargando(false));
-    store.dispatch(setClear());
-  } catch (error) {
-    console.error("Error al crear familia: ", error);
-    message.error(error);
-  }
+  // store.dispatch(setCargando(true));
+  // try {
+  //   const formulario = body.getFieldsValue();
+  //   console.log(formulario);
+  //   const response = await createFamilia(formulario);
+  //   if (response.statusCode === 200) {
+  //     //Mostrar Mensaje:  Creado exitosamente
+  //     message.success(response.message);
+  //     listarOrdenesCompra();
+  //     //Redireccionar
+  //     history.push('/maestro/familia');
+  //   } else {
+  //     //Mostrar Mensaje:  Ocurrio un error
+  //     message.error(response.message);
+  //   };
+  //   //Loading OFF
+  //   store.dispatch(setCargando(false));
+  //   store.dispatch(setClear());
+  // } catch (error) {
+  //   console.error("Error al crear familia: ", error);
+  //   message.error(error);
+  // }
 }
 
 export const actualizarOrdenCompra = async (body) => {
   //Loading ON
-  store.dispatch(setCargando(true));
-  try {
-    const formulario = body.getFieldsValue();
-    const id = formulario.id;
-    delete formulario.id;
-    const response = await updateFamilia(id, formulario);
-    if (response.statusCode === 200) {
-      //Mostrar Mensaje:  Creado exitosamente
-      message.success(response.message);
-      listarOrdenesCompra();
-      //Redireccionar
-      history.push('/maestro/familia');
-    } else {
-      //Mostrar Mensaje:  Ocurrio un error
-      message.error(response.message);
-    };
-    //Loading OFF
-    store.dispatch(setCargando(false));
-    store.dispatch(setClear());
-  } catch (error) {
-    console.error("Error al crear familia: ", error);
-    message.error(error);
-  }
+  // store.dispatch(setCargando(true));
+  // try {
+  //   const formulario = body.getFieldsValue();
+  //   const id = formulario.id;
+  //   delete formulario.id;
+  //   const response = await updateFamilia(id, formulario);
+  //   if (response.statusCode === 200) {
+  //     //Mostrar Mensaje:  Creado exitosamente
+  //     message.success(response.message);
+  //     listarOrdenesCompra();
+  //     //Redireccionar
+  //     history.push('/maestro/familia');
+  //   } else {
+  //     //Mostrar Mensaje:  Ocurrio un error
+  //     message.error(response.message);
+  //   };
+  //   //Loading OFF
+  //   store.dispatch(setCargando(false));
+  //   store.dispatch(setClear());
+  // } catch (error) {
+  //   console.error("Error al crear familia: ", error);
+  //   message.error(error);
+  // }
 }
 
 
 export const onSearchCOD = async searchText => {
   // var cod = formRef.current.getFieldValue('codPaciente');
   // if (cod ? cod.length >= 4 : false) {
-    // setPeticion(true);
-    // setOptionsCOD();
-    // const respuesta = await httpClient.post(
-    //   'camas/getPacientes',
-    //   {
-    //     codPaciente: cod,
-    //     nombre: '',
-    //   },
-    //   { cancelToken: cancelSource.token }
-    // );
-    // var array1 = respuesta.data.data;
-    // for (let i = 0; i < array1.length; i++) {
-    //   if (array1[i].asignado === "1") {
-    //     delete array1[i];
-    //   } else {
-    //     array1[i].key = array1[i].cod_paciente;
-    //     array1[i].value = array1[i].cod_paciente;
-    //     array1[i].label = array1[i].cod_paciente;
-    //   }
-    // }
-    // setOptionsNOM();
-    // setOptionsCOD(array1);
+  // setPeticion(true);
+  // setOptionsCOD();
+  // const respuesta = await httpClient.post(
+  //   'camas/getPacientes',
+  //   {
+  //     codPaciente: cod,
+  //     nombre: '',
+  //   },
+  //   { cancelToken: cancelSource.token }
+  // );
+  // var array1 = respuesta.data.data;
+  // for (let i = 0; i < array1.length; i++) {
+  //   if (array1[i].asignado === "1") {
+  //     delete array1[i];
+  //   } else {
+  //     array1[i].key = array1[i].cod_paciente;
+  //     array1[i].value = array1[i].cod_paciente;
+  //     array1[i].label = array1[i].cod_paciente;
+  //   }
+  // }
+  // setOptionsNOM();
+  // setOptionsCOD(array1);
   // } else {
-    // if (peticion) {
-    //   cancelSource.cancel('COD Cancelado');
-    //   setCancelSource(axios.CancelToken.source());
-    // }
+  // if (peticion) {
+  //   cancelSource.cancel('COD Cancelado');
+  //   setCancelSource(axios.CancelToken.source());
+  // }
   // }
 };
 
@@ -210,6 +211,23 @@ export const onChangeCOD = data => {
 
 
 export const onSearchNOM = async searchText => {
+  var array = [];
+  if (searchText ? searchText.length >= 4 : false) {
+    dataBusqueda.forEach(element => {
+      if (element.descripcion.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())) {
+        array.push({
+          codigo: element.codigo,
+          descripcion: element.descripcion,
+          atributos: element.atributos,
+          key: element._id,
+          value: element._id,
+          label: element.descripcion,
+        })
+      }
+    })
+  }
+  store.dispatch(setOpciones(array));
+
   // var nombre = formRef.current.getFieldValue('nombre');
   // if (nombre ? nombre.length >= 4 : false) {
   //   setPeticion(true);
@@ -248,21 +266,8 @@ export const onSearchNOM = async searchText => {
   // }
 };
 
-export const onSelectNOM = data => {
-  // optionsNOM.forEach(element => {
-  //   if (element.key === data) {
-  //     formRef.current.setFieldsValue({
-  //       codPaciente: element.cod_paciente,
-  //       nombre: `${element.nom_cli + ' ' + element.ape_pat_cli + ' ' + element.ape_mat_cli}`,
-  //     });
-  //     setPaciente(element);
-  //     setValueNOM(data);
-  //   }
-  // });
-};
-
 export const onChangeNOM = data => {
-  // if (data.length <= 3) {
-  //   setOptionsNOM([]);
-  // }
+  if (data.length <= 3) {
+    store.dispatch(setOpciones([]));
+  }
 };

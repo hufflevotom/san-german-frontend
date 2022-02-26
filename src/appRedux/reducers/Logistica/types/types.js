@@ -6,5 +6,6 @@ export const typesOrdenCompra = {
   setOrdenCompra: '[SET] Orden de Compra',
   setClear: '[SET] Clear',
   setCargando: '[SET] Cargando',
+  setOpciones: '[SET] Opciones AutoComplete',
 };
 

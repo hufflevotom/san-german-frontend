@@ -30,4 +30,11 @@ export const CREATE_FAMILIA = URL_BASE_LOCAL + '/maestro/familia';
 export const UPDATE_FAMILIA = URL_BASE_LOCAL + '/maestro/familia/';
 export const DELETE_FAMILIA = URL_BASE_LOCAL + '/maestro/familia/';
 
+//Módulo de Logística - Órdenes de Compra
+export const GET_ORDENES_COMPRA = URL_BASE_LOCAL + '/logistica/ordenCompra';
+export const GET_ORDEN_COMPRA = URL_BASE_LOCAL + '/logistica/ordenCompra/';
+export const CREATE_ORDEN_COMPRA = URL_BASE_LOCAL + '/logistica/ordenCompra';
+export const UPDATE_ORDEN_COMPRA = URL_BASE_LOCAL + '/logistica/ordenCompra/';
+export const DELETE_ORDEN_COMPRA = URL_BASE_LOCAL + '/logistica/ordenCompra/';
+
 

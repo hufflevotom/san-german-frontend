@@ -47,6 +47,13 @@ export const setOrdenCompra = (data) => {
 //   };
 // };
 
+export const setOpciones = (data) => {
+  return {
+    type: typesOrdenCompra.setOpciones,
+    payload: data
+  };
+};
+
 
 
 
