@@ -1,4 +1,4 @@
-import { Divider, message } from 'antd';
+import { Divider, message, Modal } from 'antd';
 import { getColumnSearchProps } from '../../../../util/Utils';
 // Services
 import { obtenerProductos, crearProducto, subirImagenOpcion, eliminarProducto, obtenerProductoPorId } from "../services/index";
@@ -6,12 +6,14 @@ import { obtenerProductos, crearProducto, subirImagenOpcion, eliminarProducto, o
 import store, { history } from '../../../../appRedux/store';
 import { setProducto, setClear, setCargando } from '../../../../appRedux/actions/Maestro/Producto';
 
-const config = (almacen) => {
+const config = (producto) => {
+
+  console.log(producto);
   return {
-    title: `¿Desea Eliminar el Almacén ${almacen.nombre}?`,
+    title: `¿Desea Eliminar el Producto ${producto.descripcion}?`,
     okText: 'Eliminar',
     cancelText: 'Cancelar',
-    // onOk: () => borrarAlmacen(almacen._id),
+    onOk: () => borrarProducto(producto._id),
     onCancel: () => console.log("Cancelado"),
     content: (
       <> Los datos eliminados no podran recuperarse. </>
@@ -57,24 +59,8 @@ export const columns = [
           <i
             className="icon icon-trash"
             style={{ fontSize: 17, color: "red" }}
-            onClick={async () => {
-              try {
-                const response = await eliminarProducto(record._id);
-                if (response.statusCode === 200) {
-                  //Mostrar Mensaje:  Creado exitosamente
-                  message.success(response.message);
-                  listarProductos();
-                  //Redireccionar
-                  history.push('/maestro/producto');
-                } else {
-                  //Mostrar Mensaje:  Ocurrio un error
-                  message.error(response.message);
-                };
-              } catch (error) {
-                console.error("Error al eliminar el producto: ", error);
-                alert(error);
-              }
-            }}
+            onClick={() => Modal.confirm(config(record))}
+
           />
         </span>
       </span >
@@ -155,3 +141,26 @@ export const guardarProducto = async (body) => {
     message.error(error);
   }
 }
+
+
+export const borrarProducto = async (id) => {
+  try {
+    const response = await eliminarProducto(id);
+    if (response.statusCode === 200) {
+      //Mostrar Mensaje:  Creado exitosamente
+      message.success(response.message);
+      listarProductos();
+      //Redireccionar
+      history.push('/maestro/producto');
+    } else {
+      //Mostrar Mensaje:  Ocurrio un error
+      message.error(response.message);
+    };
+  } catch (error) {
+    console.error("Error al eliminar el producto: ", error);
+    alert(error);
+  }
+}
+
+
+
