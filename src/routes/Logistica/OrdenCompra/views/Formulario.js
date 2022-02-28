@@ -49,6 +49,7 @@ export const Formulario = () => {
     opciones[0].options.forEach(element => {
       if (element.key === data) {
         atributos[name[0]].desProducto = element.descripcion;
+        atributos[name[0]].codProducto = element.codigo;
         atributos[name[0]].atributos = element.atributos;
         // atributos[name[0]].desProducto = `${element.descripcion + ' ' + 'element.ape_pat_cli' + ' ' + 'element.ape_mat_cli'}`;
         formRef.current.setFieldsValue({ atributos: atributos })
@@ -58,9 +59,9 @@ export const Formulario = () => {
     });
   };
 
-  const onSelectCOD = (data, name) => {
-    const atributos = formRef.current.getFieldValue('atributos');
-    console.log(atributos);
+  // const onSelectCOD = (data, name) => {
+  //   const atributos = formRef.current.getFieldValue('atributos');
+  //   console.log(atributos);
     // opciones.forEach(element => {
     //   if (element.key === data) {
     //     atributos[name[0]].desProducto = element.descripcion;
@@ -71,7 +72,7 @@ export const Formulario = () => {
     //     setValueNOM(valueNOM);
     //   }
     // });
-  };
+  // };
 
   return (
     <>
@@ -210,7 +211,7 @@ export const Formulario = () => {
           <Productos
             opciones={opciones}
             onSelectNOM={onSelectNOM}
-            onSelectCOD={onSelectCOD}
+            // onSelectCOD={onSelectCOD}
             value={valueNOM}
           />
         </Form>
