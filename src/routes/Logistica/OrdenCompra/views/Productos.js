@@ -17,38 +17,26 @@ import { onChangeCOD, onSelectCOD, onChangeNOM, onSearchNOM } from "../controlle
 //Controllers
 // import { guardarFamilia, actualizarFamilia, obtenerFamilia } from "../controllers";
 
-export const Productos = ({ opciones }) => {
+export const Productos = ({ opciones, onSelectNOM, valueNOM }) => {
 
-  const formRef = createRef();
   const dispatch = useDispatch();
-  const { id } = useParams();
 
-  const [valueCOD, setValueCOD] = useState('');
-  const [opcionSeleccionada, setOpcionSeleccionada] = useState([]);
-  const [valueNOM, setValueNOM] = useState('');
-  const [optionsNOM, setOptionsNOM] = useState([]);
+  // const [valueCOD, setValueCOD] = useState('');
+  // const [valueNOM, setValueNOM] = useState('');
+  // const [optionsNOM, setOptionsNOM] = useState([]);
 
-  const genExtra = (remove, name) => (
-    <DeleteOutlined
-      onClick={() => remove(name)}
-      style={{ marginTop: "10px" }}
-    />
-  )
-
-
-  const onSelectNOM = (data, name) => {
-    const atributos = formRef.current.getFieldValue('atributos');
-    console.log(atributos);
-    opciones.forEach(element => {
-      if (element.key === data) {
-        atributos[name[0]].desProducto = element.descripcion;
-        // atributos[name[0]].desProducto = `${element.descripcion + ' ' + 'element.ape_pat_cli' + ' ' + 'element.ape_mat_cli'}`;
-        formRef.current.setFieldsValue({ atributos: atributos })
-        setOpcionSeleccionada(...opcionSeleccionada,);
-        // setValueNOM(data);
-      }
-    });
-  };
+  // const onSelectNOM = (data, name) => {
+  //   const atributos = formRef.current.getFieldValue('atributos');
+  //   console.log(atributos);
+  //   opciones.forEach(element => {
+  //     if (element.key === data) {
+  //       atributos[name[0]].desProducto = element.descripcion;
+  //       // atributos[name[0]].desProducto = `${element.descripcion + ' ' + 'element.ape_pat_cli' + ' ' + 'element.ape_mat_cli'}`;
+  //       formRef.current.setFieldsValue({ atributos: atributos })
+  //       setValueNOM({ atributos: atributos });
+  //     }
+  //   });
+  // };
 
   return (
     <Form.List name="atributos" style={{ margin: 0, padding: 0 }}>
@@ -158,9 +146,15 @@ export const Productos = ({ opciones }) => {
                   </Form.Item>
                 </Col>
                 <DeleteOutlined
-                  onClick={() => remove(name)}
+                  onClick={() => {
+                    console.log(valueNOM);
+                    // remove(name)
+                  }}
                   style={{ padding: '10px 10px 0 10px' }}
                 />
+                <div>
+                  {valueNOM[key]}
+                </div>
               </Row>
             ))}
           <Form.Item style={{ marginTop: "20px" }}>

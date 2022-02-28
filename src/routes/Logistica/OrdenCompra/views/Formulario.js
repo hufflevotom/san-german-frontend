@@ -28,6 +28,10 @@ export const Formulario = () => {
   const { id } = useParams();
   const { opciones } = useSelector(state => state.ordenCompra);
 
+  const [valueCOD, setValueCOD] = useState('');
+  const [valueNOM, setValueNOM] = useState([]);
+  const [optionsNOM, setOptionsNOM] = useState([]);
+
 
   // useEffect(() => {
   //   if (id) {
@@ -38,6 +42,21 @@ export const Formulario = () => {
   //     });
   //   }
   // }, [id, nombre])
+
+  const onSelectNOM = (data, name) => {
+    const atributos = formRef.current.getFieldValue('atributos');
+    console.log(atributos);
+    opciones.forEach(element => {
+      if (element.key === data) {
+        atributos[name[0]].desProducto = element.descripcion;
+        atributos[name[0]].atributos = element.atributos;
+        // atributos[name[0]].desProducto = `${element.descripcion + ' ' + 'element.ape_pat_cli' + ' ' + 'element.ape_mat_cli'}`;
+        formRef.current.setFieldsValue({ atributos: atributos })
+        valueNOM[name[0]]=atributos[name[0]];
+        setValueNOM(valueNOM);
+      }
+    });
+  };
 
   return (
     <>
@@ -175,6 +194,8 @@ export const Formulario = () => {
           </Row>
           <Productos
             opciones={opciones}
+            onSelectNOM={onSelectNOM}
+            valueNOM={valueNOM}
           />
         </Form>
       </Card>
