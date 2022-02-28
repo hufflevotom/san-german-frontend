@@ -1,5 +1,5 @@
 //Ant Design
-import { Divider, message } from 'antd';
+import { Divider, message, Modal } from 'antd';
 //Utils
 import { getColumnSearchProps } from '../../../../util/Utils';
 //Services
@@ -7,6 +7,25 @@ import { getFamilias, getFamilia, createFamilia, deleteFamilia, updateFamilia } 
 //Redux
 import store, { history } from '../../../../appRedux/store';
 import { setFamilia, setClear, setCargando, setNombre, setId, setCodigo } from '../../../../appRedux/actions/Maestro/Familia';
+
+
+const config = (familia) => {
+
+  console.log("FAMILIA: ", familia);
+  return {
+    title: `¿Desea Eliminar la Familia ${familia.nombre}?`,
+    okText: 'Eliminar',
+    cancelText: 'Cancelar',
+    onOk: () => borrarFamilia(familia._id),
+    onCancel: () => console.log("Cancelado"),
+    content: (
+      <> Los datos eliminados no podran recuperarse. </>
+    ),
+  }
+};
+
+
+
 
 export const columns = [
   {
@@ -41,24 +60,7 @@ export const columns = [
           <i
             className="icon icon-trash"
             style={{ fontSize: 17, color: "red" }}
-            onClick={async () => {
-              try {
-                const response = await deleteFamilia(record._id);
-                if (response.statusCode === 200) {
-                  //Mostrar Mensaje: Eliminado exitosamente
-                  message.success(response.message);
-                  listarFamilias();
-                  //Redireccionar
-                  history.push('/maestro/familia');
-                } else {
-                  //Mostrar Mensaje: Ocurrio un error
-                  message.error(response.message);
-                };
-              } catch (error) {
-                console.error("Error al eliminar el producto: ", error);
-                alert(error);
-              }
-            }}
+            onClick={() => Modal.confirm(config(record))}
           />
         </span>
       </span >
@@ -95,7 +97,6 @@ export const obtenerFamilia = async (id) => {
     const response = await getFamilia(id);
     if (response.statusCode === 200) {
       const body = response.body;
-      console.log("BODY: ", body);
       store.dispatch(setNombre(body.nombre));
       store.dispatch(setCodigo(body.codigo));
       store.dispatch(setId(body._id));
@@ -161,3 +162,24 @@ export const actualizarFamilia = async (body) => {
     message.error(error);
   }
 }
+
+
+export const borrarFamilia = async (id) => {
+  try {
+    const response = await deleteFamilia(id);
+    if (response.statusCode === 200) {
+      //Mostrar Mensaje:  Creado exitosamente
+      message.success(response.message);
+      listarFamilias();
+      //Redireccionar
+      history.push('/maestro/familia');
+    } else {
+      //Mostrar Mensaje: Ocurrio un error
+      message.error(response.message);
+    };
+  } catch (error) {
+    console.error("Error al eliminar la familia: ", error);
+    message.error(error);
+  }
+}
+

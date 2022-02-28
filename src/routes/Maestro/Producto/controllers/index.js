@@ -1,17 +1,19 @@
-import { Divider, message } from 'antd';
+import { Divider, message, Modal } from 'antd';
 import { getColumnSearchProps } from '../../../../util/Utils';
 // Services
 import { obtenerProductos, crearProducto, subirImagenOpcion, eliminarProducto, obtenerProductoPorId } from "../services/index";
 //Store
 import store, { history } from '../../../../appRedux/store';
-import { setProducto, setClear, setCargando } from '../../../../appRedux/actions/Maestro/Producto';
+import { setProducto, setClear, setCargando, setCodigo, setDescripcion, setAlmacenId, setAtributosId, setFamilia } from '../../../../appRedux/actions/Maestro/Producto';
 
-const config = (almacen) => {
+const config = (producto) => {
+
+  console.log(producto);
   return {
-    title: `¿Desea Eliminar el Almacén ${almacen.nombre}?`,
+    title: `¿Desea Eliminar el Producto ${producto.descripcion}?`,
     okText: 'Eliminar',
     cancelText: 'Cancelar',
-    // onOk: () => borrarAlmacen(almacen._id),
+    onOk: () => borrarProducto(producto._id),
     onCancel: () => console.log("Cancelado"),
     content: (
       <> Los datos eliminados no podran recuperarse. </>
@@ -48,7 +50,7 @@ export const columns = [
             className="icon icon-edit"
             style={{ fontSize: 16, color: 'orange' }}
             onClick={() => {
-              //TODO: EDITAR
+              history.push('/maestro/producto/editar/' + record._id);
             }}
           />
         </span>
@@ -57,24 +59,8 @@ export const columns = [
           <i
             className="icon icon-trash"
             style={{ fontSize: 17, color: "red" }}
-            onClick={async () => {
-              try {
-                const response = await eliminarProducto(record._id);
-                if (response.statusCode === 200) {
-                  //Mostrar Mensaje:  Creado exitosamente
-                  message.success(response.message);
-                  listarProductos();
-                  //Redireccionar
-                  history.push('/maestro/producto');
-                } else {
-                  //Mostrar Mensaje:  Ocurrio un error
-                  message.error(response.message);
-                };
-              } catch (error) {
-                console.error("Error al eliminar el producto: ", error);
-                alert(error);
-              }
-            }}
+            onClick={() => Modal.confirm(config(record))}
+
           />
         </span>
       </span >
@@ -84,7 +70,7 @@ export const columns = [
 
 export const listarProductos = async () => {
   try {
-    const response = await obtenerProductos(5, 1);
+    const response = await obtenerProductos(10, 0);
     if (response.statusCode === 200) {
       const body = response.body;
       response.body.forEach(element => {
@@ -107,6 +93,13 @@ export const obtenerProducto = async (id) => {
     const response = await obtenerProductoPorId(id);
     if (response.statusCode === 200) {
       const body = response.body;
+      console.log("Editar: ", body);
+      store.dispatch(setCodigo(body.codigo));
+      store.dispatch(setDescripcion(body.descripcion));
+      store.dispatch(setAlmacenId(body.almacen._id));
+      store.dispatch(setFamilia(body.familia._id));
+      store.dispatch(setAtributosId(body.atributos));
+
       // store.dispatch(setNombre(body.nombre));
       // store.dispatch(setId(body._id));
       // return body;
@@ -155,3 +148,26 @@ export const guardarProducto = async (body) => {
     message.error(error);
   }
 }
+
+
+export const borrarProducto = async (id) => {
+  try {
+    const response = await eliminarProducto(id);
+    if (response.statusCode === 200) {
+      //Mostrar Mensaje:  Creado exitosamente
+      message.success(response.message);
+      listarProductos();
+      //Redireccionar
+      history.push('/maestro/producto');
+    } else {
+      //Mostrar Mensaje:  Ocurrio un error
+      message.error(response.message);
+    };
+  } catch (error) {
+    console.error("Error al eliminar el producto: ", error);
+    alert(error);
+  }
+}
+
+
+

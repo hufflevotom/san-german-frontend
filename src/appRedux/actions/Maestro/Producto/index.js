@@ -40,6 +40,14 @@ export const setAtributosId = (data) => {
   };
 };
 
+export const setFamilia = (data) => {
+  return {
+    type: typesProducto.setFamilia,
+    payload: data
+  };
+};
+
+
 export const setAlmacenId = (data) => {
   return {
     type: typesProducto.setAlmacenId,

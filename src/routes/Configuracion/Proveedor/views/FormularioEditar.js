@@ -98,12 +98,12 @@ export const FormularioEditarProveedor = (props) => {
           style={{ padding: "0 50px 0 50px" }}
         >
           <Form.Item
-            label="Razon Social"
+            label="Razón Social"
             name="razonSocial"
             rules={[
               {
                 required: true,
-                message: 'La razon social es requerido',
+                message: 'La razón social es requerido',
 
               },
             ]}
