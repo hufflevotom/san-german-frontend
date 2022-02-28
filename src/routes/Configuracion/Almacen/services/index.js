@@ -6,10 +6,11 @@ export const obtenerAlmacenes = async () => {
   return response.data;
 }
 
-export const crearAlmacen = async (nombre, ubicacion) => {
+export const crearAlmacen = async (nombre, ubicacion, codigo) => {
   const response = await httpClient.post(CREATE_ALMACEN, {
     nombre: nombre,
     ubicacion: ubicacion,
+    codigo: codigo,
   });
   return response.data;
 }
@@ -19,10 +20,11 @@ export const obtenerAlmacenPorId = async (id) => {
   return response.data;
 }
 
-export const actualizarAlmacen = async (id, nombre, ubicacion) => {
+export const actualizarAlmacen = async (id, nombre, ubicacion, codigo) => {
   const response = await httpClient.put(UPDATE_ALMACEN + id, {
     nombre: nombre,
     ubicacion: ubicacion,
+    codigo: codigo,
   });
   return response.data;
 }

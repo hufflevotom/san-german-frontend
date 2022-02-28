@@ -24,9 +24,9 @@ const config = (almacen) => {
 export const columns = [
   {
     title: 'Código',
-    dataIndex: '__v',
-    key: '__v',
-    ...getColumnSearchProps('__v'),
+    dataIndex: 'codigo',
+    key: 'codigo',
+    ...getColumnSearchProps('codigo'),
   },
   {
     title: 'Nombre',
@@ -109,7 +109,7 @@ export const guardarAlmacen = async () => {
   const state = store.getState().almacen;
 
   try {
-    const response = await crearAlmacen(state.nombre, state.ubicacion);
+    const response = await crearAlmacen(state.nombre, state.ubicacion, state.codigo);
     if (response.statusCode === 201) {
       //Mostrar Mensaje:  Creado exitosamente
       message.success('Almacen creado correctamente');
@@ -134,7 +134,7 @@ export const editarAlmacen = async (id) => {
   const state = store.getState().almacen;
 
   try {
-    const response = await actualizarAlmacen(id, state.nombre, state.ubicacion);
+    const response = await actualizarAlmacen(id, state.nombre, state.ubicacion, state.codigo);
     if (response.statusCode === 200) {
       //Mostrar Mensaje:  Creado exitosamente
       message.success('Almacen actualizado correctamente');

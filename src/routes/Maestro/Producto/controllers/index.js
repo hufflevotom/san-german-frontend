@@ -6,6 +6,19 @@ import { obtenerProductos, crearProducto, subirImagenOpcion, eliminarProducto } 
 import store, { history } from '../../../../appRedux/store';
 import { setProducto, setClear, setCargando } from '../../../../appRedux/actions/Maestro/Producto';
 
+const config = (almacen) => {
+  return {
+    title: `¿Desea Eliminar el Almacén ${almacen.nombre}?`,
+    okText: 'Eliminar',
+    cancelText: 'Cancelar',
+    // onOk: () => borrarAlmacen(almacen._id),
+    onCancel: () => console.log("Cancelado"),
+    content: (
+      <> Los datos eliminados no podran recuperarse. </>
+    ),
+  }
+};
+
 export const columns = [
   {
     title: 'Código',

@@ -1,6 +1,7 @@
 export const typesAlmacen = {
   setCargando: 'SET_CARGANDO ALMACEN',
   setNombre: '[SET] Nombre del Almacen',
+  setCodigo: '[SET] Codigo del Almacen',
   setUbicacion: '[SET] Ubicacion del Almacen',
   setAlmacen: '[SET] Almacen',
   setClear: '[SET] Clear',

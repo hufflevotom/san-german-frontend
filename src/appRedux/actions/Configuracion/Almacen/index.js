@@ -21,6 +21,13 @@ export const setNombre = (nombre) => {
     };
 };
 
+export const setCodigo = (data) => {
+    return {
+        type: typesAlmacen.setCodigo,
+        payload: data
+    };
+};
+
 export const setAlmacen = (data) => {
     return {
         type: typesAlmacen.setAlmacen,

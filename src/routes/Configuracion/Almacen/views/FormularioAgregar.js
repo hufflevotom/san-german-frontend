@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setClear, setNombre, setUbicacion } from '../../../../appRedux/actions/Configuracion/Almacen';
+import { setClear, setNombre, setUbicacion, setCodigo } from '../../../../appRedux/actions/Configuracion/Almacen';
 import { guardarAlmacen } from '../controllers';
 import { LeftOutlined } from '@ant-design/icons';
 
@@ -69,6 +69,20 @@ export const FormularioAgregarAlmacen = () => {
           colon={false}
           style={{ padding: "0 50px 0 50px" }}
         >
+          <Form.Item
+            label="Código"
+            name="codigo"
+            rules={[
+              {
+                required: true,
+                message: 'El código es requerido',
+
+              },
+            ]}
+          >
+            <Input onChange={(e) => dispatch(setCodigo(e.target.value))} />
+          </Form.Item>
+
           <Form.Item
             label="Nombre"
             name="nombre"
