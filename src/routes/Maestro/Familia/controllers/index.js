@@ -6,9 +6,15 @@ import { getColumnSearchProps } from '../../../../util/Utils';
 import { getFamilias, getFamilia, createFamilia, deleteFamilia, updateFamilia } from "../services/index";
 //Redux
 import store, { history } from '../../../../appRedux/store';
-import { setFamilia, setClear, setCargando, setNombre, setId } from '../../../../appRedux/actions/Maestro/Familia';
+import { setFamilia, setClear, setCargando, setNombre, setId, setCodigo } from '../../../../appRedux/actions/Maestro/Familia';
 
 export const columns = [
+  {
+    title: 'Código',
+    dataIndex: 'codigo',
+    key: 'codigo',
+    ...getColumnSearchProps('codigo'),
+  },
   {
     title: 'Nombre',
     dataIndex: 'nombre',
@@ -90,6 +96,7 @@ export const obtenerFamilia = async (id) => {
     if (response.statusCode === 200) {
       const body = response.body;
       store.dispatch(setNombre(body.nombre));
+      store.dispatch(setCodigo(body.codigo));
       store.dispatch(setId(body._id));
       // return body;
     }

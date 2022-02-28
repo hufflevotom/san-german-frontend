@@ -14,17 +14,18 @@ export const Formulario = () => {
   const formRef = createRef();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { nombre } = useSelector(state => state.familia);
+  const { nombre, codigo } = useSelector(state => state.familia);
 
   useEffect(() => {
     if (id) {
       obtenerFamilia(id);
       formRef.current.setFieldsValue({
         id: id,
-        nombre: nombre
+        nombre: nombre,
+        codigo: codigo,
       });
     }
-  }, [id, nombre])
+  }, [id, nombre, codigo])
 
 
   return (
@@ -88,12 +89,27 @@ export const Formulario = () => {
           ref={formRef}
         >
           <Form.Item
-            label="Nombre"
+            label="Id"
             name="id"
             style={{ display: "none" }}
           >
             <Input
               placeholder="Ingrese el id de la familia"
+            />
+          </Form.Item>
+          <Form.Item
+            label="Código"
+            name="codigo"
+            rules={[
+              {
+                required: true,
+                message: "El codigo es requerido",
+              },
+            ]}
+          >
+            <Input
+              placeholder="Ingrese el código del producto"
+            // onChange={(e) => dispatch(setCodigo(e.target.value))}
             />
           </Form.Item>
           <Form.Item

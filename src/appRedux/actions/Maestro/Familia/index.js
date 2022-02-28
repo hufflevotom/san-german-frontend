@@ -33,6 +33,13 @@ export const setNombre = (data) => {
   };
 };
 
+export const setCodigo = (data) => {
+  return {
+    type: typesFamilia.setCodigo,
+    payload: data
+  };
+};
+
 
 
 

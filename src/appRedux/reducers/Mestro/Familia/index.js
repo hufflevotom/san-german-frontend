@@ -3,6 +3,7 @@ import { typesFamilia } from "../types/types";
 const initState = {
   id: '',
   nombre: '',
+  codigo: '',
   familia: [],
   cargando: false,
 };
@@ -27,6 +28,12 @@ export const FamiliaReducer = (state = initState, action) => {
         nombre: action.payload
       };
 
+    case typesFamilia.setCodigo:
+      return {
+        ...state,
+        codigo: action.payload
+      };
+
     case typesFamilia.setCargando:
       return {
         ...state,
@@ -38,6 +45,7 @@ export const FamiliaReducer = (state = initState, action) => {
         ...state,
         id: '',
         nombre: '',
+        codigo: '',
         familia: [],
         cargando: false
       };
