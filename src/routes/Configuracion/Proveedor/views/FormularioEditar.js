@@ -132,22 +132,38 @@ export const FormularioEditarProveedor = (props) => {
                 required: true,
                 message: 'El RUC es requerido',
               },
+              {
+                min: 11,
+                max: 11,
+                message: 'El RUC debe tener 11 dígitos',
+              },
             ]}
+            style={{ marginBottom: '10px' }}
           >
-            <Input onChange={(e) => dispatch(setRuc(e.target.value))} />
+            <Input
+              type="number"
+              onChange={(e) => {
+                var valor = e.target.value.substring(0, 2);
+                if (valor === "20") {
+                  dispatch(setTipo("Persona Jurídica"))
+                } else if (valor === "10") {
+                  dispatch(setTipo("Persona Natural"))
+                }
+                dispatch(setRuc(e.target.value))
+              }}
+            />
           </Form.Item>
 
           <Form.Item
             label="Tipo"
             name="tipo"
-            rules={[
-              {
-                required: true,
-                message: 'El Tipo es requerido',
-              },
-            ]}
+            style={{ marginBottom: '10px' }}
           >
-            <Input onChange={(e) => dispatch(setTipo(e.target.value))} />
+            {
+              proveedor ?
+                proveedor.tipo :
+                null
+            }
           </Form.Item>
 
           <Form.Item

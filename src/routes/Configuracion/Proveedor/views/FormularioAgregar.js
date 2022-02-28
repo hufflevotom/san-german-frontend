@@ -1,5 +1,5 @@
-import React, { createRef } from 'react';
-import { Form, Input, Button, Card, Select } from 'antd';
+import React from 'react';
+import { Form, Input, Button, Card } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,8 +12,6 @@ export const FormularioAgregarProveedor = () => {
 
   const proveedor = useSelector(store => store.proveedor);
   const dispatch = useDispatch();
-
-  const formRef = createRef();
 
   return (
     <>
@@ -77,7 +75,6 @@ export const FormularioAgregarProveedor = () => {
           }}
           colon={false}
           style={{ padding: "0 50px 0 50px" }}
-          ref={formRef}
         >
           <Form.Item
             label="Razon Social"
@@ -120,19 +117,16 @@ export const FormularioAgregarProveedor = () => {
                 message: 'El RUC debe tener 11 dígitos',
               },
             ]}
+            style={{ marginBottom: '10px' }}
           >
             <Input
               type="number"
               onChange={(e) => {
                 var valor = e.target.value.substring(0, 2);
                 if (valor === "20") {
-                  formRef.current.setFieldsValue({
-                    tipo: "Persona Jurídica"
-                  });
+                  dispatch(setTipo("Persona Jurídica"))
                 } else if (valor === "10") {
-                  formRef.current.setFieldsValue({
-                    tipo: "Persona Natural"
-                  });
+                  dispatch(setTipo("Persona Natural"))
                 }
                 dispatch(setRuc(e.target.value))
               }}
@@ -142,22 +136,13 @@ export const FormularioAgregarProveedor = () => {
           <Form.Item
             label="Tipo"
             name="tipo"
-            rules={[
-              {
-                required: true,
-                message: 'El Tipo es requerido',
-              },
-            ]}
+            style={{ marginBottom: '10px' }}
           >
-            <Select
-              placeholder="Tipo de persona"
-              onChange={(e) => dispatch(setTipo(e))}
-              disabled
-            >
-              <Select.Option key="Persona Jurídica" value="Persona Jurídica">Persona Jurídica</Select.Option>
-              <Select.Option key="Persona Natural" value="Persona Natural">Persona Natural</Select.Option>
-            </Select>
-            {/* <Input onChange={(e) => dispatch(setTipo(e.target.value))} /> */}
+            {
+              proveedor ?
+                proveedor.tipo :
+                null
+            }
           </Form.Item>
 
           <Form.Item
