@@ -3,7 +3,7 @@ import { Divider, message, Modal } from 'antd';
 import { obtenerAlmacenes, crearAlmacen, eliminarAlmacen, obtenerAlmacenPorId, actualizarAlmacen } from "../services/index";
 //Store
 import store, { history } from '../../../../appRedux/store';
-import { setAlmacen, setCargando, setClear, setNombre, setUbicacion } from '../../../../appRedux/actions/Configuracion/Almacen';
+import { setAlmacen, setCargando, setClear, setNombre, setUbicacion, setCodigo } from '../../../../appRedux/actions/Configuracion/Almacen';
 //Utils
 import { getColumnSearchProps } from '../../../../util/Utils';
 
@@ -75,6 +75,7 @@ export const obtenerUnAlmacen = async (id) => {
       const body = response.body;
       store.dispatch(setNombre(body.nombre));
       store.dispatch(setUbicacion(body.ubicacion));
+      store.dispatch(setCodigo(body.codigo));
     } else {
       console.log('Error al obtener un almacen');
     }
