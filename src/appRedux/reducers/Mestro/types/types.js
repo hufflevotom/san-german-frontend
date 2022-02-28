@@ -9,7 +9,7 @@ export const typesProducto = {
 };
 
 export const typesFamilia = {
-  setId: '[SET] Código de familia',
+  setId: '[SET] ID de familia',
   setNombre: '[SET] Nombre de familia',
   setCodigo: '[SET] Código de familia',
   setFamilia: '[SET] Familia',
