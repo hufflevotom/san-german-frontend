@@ -22,6 +22,7 @@ export const SUBIR_IMAGEN_OPCION = URL_BASE_LOCAL + '/maestro/producto/opcion/im
 export const GET_ID_PRODUCTO = URL_BASE_LOCAL + '/maestro/producto/';
 export const UPDATE_PRODUCTO = URL_BASE_LOCAL + '/maestro/producto/';
 export const DELETE_PRODUCTO = URL_BASE_LOCAL + '/maestro/producto/';
+export const GET_PRODUCTO_FILTRADO = URL_BASE_LOCAL + '/maestro/producto/filtro/busqueda?limit=20&offset=0&filtro=';
 
 //Módulo de Maestro - Familias
 export const GET_FAMILIAS = URL_BASE_LOCAL + '/maestro/familia';

@@ -12,12 +12,12 @@ import {
 import { Form, Input, Button, Card, Col, Row, Collapse, AutoComplete, Select } from "antd";
 //Redux
 import { useDispatch, useSelector } from "react-redux";
-import { onChangeCOD, onSelectCOD, onChangeNOM, onSearchNOM } from "../controllers";
+import { onChangeCOD, onChangeNOM, onSearchNOM } from "../controllers";
 // import { setClear } from "../../../../appRedux/actions/Maestro/Familia";
 //Controllers
 // import { guardarFamilia, actualizarFamilia, obtenerFamilia } from "../controllers";
 
-export const Productos = ({ opciones, onSelectNOM, valueNOM }) => {
+export const Productos = ({ opciones, onSelectNOM, onSelectCOD, value }) => {
 
   const dispatch = useDispatch();
 
@@ -63,10 +63,11 @@ export const Productos = ({ opciones, onSelectNOM, valueNOM }) => {
                   >
                     <AutoComplete
                       // value={valueCOD}
-                      // options={optionsCOD}
-                      // onSearch={onSearchCOD}
-                      // onSelect={onSelectCOD}
-                      // onChange={onChangeCOD}
+                      options={opciones}
+                      onSearch={onSearchNOM}
+                      onSelect={(e) => onSelectCOD(e, [name, "desProducto"])}
+                      onChange={onChangeCOD}
+                      dropdownMatchSelectWidth={700}
                       style={{ width: '100%' }}
                       placeholder="Código de Producto"
                     />
@@ -86,6 +87,7 @@ export const Productos = ({ opciones, onSelectNOM, valueNOM }) => {
                       onSearch={onSearchNOM}
                       onSelect={(e) => onSelectNOM(e, [name, "desProducto"])}
                       onChange={onChangeNOM}
+                      dropdownMatchSelectWidth={700}
                       style={{ width: '100%' }}
                       placeholder="Descripción del producto"
                     />
@@ -147,13 +149,18 @@ export const Productos = ({ opciones, onSelectNOM, valueNOM }) => {
                 </Col>
                 <DeleteOutlined
                   onClick={() => {
-                    console.log(valueNOM);
-                    // remove(name)
+                    remove(name)
                   }}
                   style={{ padding: '10px 10px 0 10px' }}
                 />
                 <div>
-                  {valueNOM[key]}
+                  {
+                    value ?
+                      value[name] ?
+                        value[name].desProducto :
+                        null :
+                      null
+                  }
                 </div>
               </Row>
             ))}

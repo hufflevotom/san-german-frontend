@@ -1,9 +1,9 @@
 //Ant Design
-import { Divider, message } from 'antd';
+import { Divider, message, Row, Col } from 'antd';
 //Utils
 import { getColumnSearchProps } from '../../../../util/Utils';
 //Services
-import { getOrdenesCompra, getOrdenCompra, createOrdenCompra, deleteOrdenCompra, updateOrdenCompra } from "../services/index";
+import { getOrdenesCompra, getOrdenCompra, createOrdenCompra, deleteOrdenCompra, updateOrdenCompra, getProductoFiltrado } from "../services/index";
 import { dataBusqueda } from '../services/data';
 //Redux
 import store, { history } from '../../../../appRedux/store';
@@ -211,22 +211,54 @@ export const onChangeCOD = data => {
 
 
 export const onSearchNOM = async searchText => {
-  var array = [];
+  var array = [{
+    label: null,
+    options: []
+  }];
+  var peticion = true;
   if (searchText ? searchText.length >= 4 : false) {
-    dataBusqueda.forEach(element => {
-      if (element.descripcion.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())) {
-        array.push({
-          codigo: element.codigo,
-          descripcion: element.descripcion,
-          atributos: element.atributos,
-          key: element._id,
-          value: element._id,
-          label: element.descripcion,
-        })
+    // dataBusqueda.forEach(element => {
+    //   if (element.descripcion.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())) {
+    //     array.push({
+    //       codigo: element.codigo,
+    //       descripcion: element.descripcion,
+    //       atributos: element.atributos,
+    //       key: element._id,
+    //       value: element._id,
+    //       label: element.descripcion,
+    //     })
+    //   }
+    // })
+    // peticion = true;
+    store.dispatch(setOpciones());
+    const response = await getProductoFiltrado(searchText);
+    if (response.statusCode === 200) {
+      var array1 = response.body;
+      array[0].label =
+        <Row style={{ textTransform: 'uppercase', fontWeight: 'bold', width: '100%' }}>
+          <Col xs={9}>Producto</Col>
+          <Col xs={8}>Almacen</Col>
+          <Col xs={7}>Familia</Col>
+        </Row>
+        ;
+      for (let i = 0; i < array1.length; i++) {
+        array[0].options.push({
+          value: array1[i]._id,
+          label: (
+            <Row style={{ fontSize: '12px', display: 'flex', alignItems: 'center' }}>
+              <Col xs={3}>{array1[i].codigo}</Col>
+              <Col xs={6} style={{ wordBreak: "break-all" }}>{array1[i].descripcion}</Col>
+              <Col xs={3}>{array1[i].almacen.codigo}</Col>
+              <Col xs={5} style={{ wordBreak: "break-all" }}>{array1[i].almacen.nombre}</Col>
+              <Col xs={3}>{array1[i].familia.codigo}</Col>
+              <Col xs={4} style={{ wordBreak: "break-all" }}>{array1[i].familia.nombre}</Col>
+            </Row>
+          ),
+        });
       }
-    })
+      store.dispatch(setOpciones(array));
+    };
   }
-  store.dispatch(setOpciones(array));
 
   // var nombre = formRef.current.getFieldValue('nombre');
   // if (nombre ? nombre.length >= 4 : false) {
