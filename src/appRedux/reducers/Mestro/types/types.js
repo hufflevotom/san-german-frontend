@@ -4,6 +4,7 @@ export const typesProducto = {
   setAtributosId: '[SET] Atributos del Producto',
   setAlmacenId: '[SET] Almacen del Producto',
   setProducto: '[SET] Producto',
+  setFamilia: '[SET] Familia del Producto',
   setClear: '[SET] Clear',
   setCargando: '[SET] Cargando',
 };
