@@ -46,7 +46,7 @@ export const Formulario = () => {
   const onSelectNOM = (data, name) => {
     const atributos = formRef.current.getFieldValue('atributos');
     console.log(atributos);
-    opciones.forEach(element => {
+    opciones[0].options.forEach(element => {
       if (element.key === data) {
         atributos[name[0]].desProducto = element.descripcion;
         atributos[name[0]].atributos = element.atributos;

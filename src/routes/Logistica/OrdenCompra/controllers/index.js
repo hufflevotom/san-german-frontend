@@ -243,6 +243,8 @@ export const onSearchNOM = async searchText => {
         ;
       for (let i = 0; i < array1.length; i++) {
         array[0].options.push({
+          ...array1[i],
+          key: array1[i]._id,
           value: array1[i]._id,
           label: (
             <Row style={{ fontSize: '12px', display: 'flex', alignItems: 'center' }}>
