@@ -17,7 +17,7 @@ export const subirImagenOpcion = async (productoId, atributo, opcion, imagen) =>
 }
 
 export const obtenerProductoPorId = async (id) => {
-  const response = await httpClient.post(GET_ID_PRODUCTO + id);
+  const response = await httpClient.get(GET_ID_PRODUCTO + id);
   return response.data;
 }
 

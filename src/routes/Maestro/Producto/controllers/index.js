@@ -4,7 +4,7 @@ import { getColumnSearchProps } from '../../../../util/Utils';
 import { obtenerProductos, crearProducto, subirImagenOpcion, eliminarProducto, obtenerProductoPorId } from "../services/index";
 //Store
 import store, { history } from '../../../../appRedux/store';
-import { setProducto, setClear, setCargando } from '../../../../appRedux/actions/Maestro/Producto';
+import { setProducto, setClear, setCargando, setCodigo, setDescripcion, setAlmacenId, setAtributosId } from '../../../../appRedux/actions/Maestro/Producto';
 
 const config = (producto) => {
 
@@ -50,7 +50,7 @@ export const columns = [
             className="icon icon-edit"
             style={{ fontSize: 16, color: 'orange' }}
             onClick={() => {
-              //TODO: EDITAR
+              history.push('/maestro/producto/editar/' + record._id);
             }}
           />
         </span>
@@ -93,6 +93,11 @@ export const obtenerProducto = async (id) => {
     const response = await obtenerProductoPorId(id);
     if (response.statusCode === 200) {
       const body = response.body;
+      console.log("Editar: ", body);
+      store.dispatch(setCodigo(body.codigo));
+      store.dispatch(setDescripcion(body.descripcion));
+      store.dispatch(setAlmacenId(body.almacen._id));
+      store.dispatch(setAtributosId(body.atributos));
       // store.dispatch(setNombre(body.nombre));
       // store.dispatch(setId(body._id));
       // return body;

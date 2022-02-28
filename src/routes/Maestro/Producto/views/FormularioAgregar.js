@@ -1,10 +1,11 @@
-import React, { createRef, useEffect } from "react";
-import { Form, Input, Button, Card, Select } from "antd";
+import React, { createRef, useEffect, useState } from "react";
+import { Form, Input, Button, Card, Select, Image } from "antd";
 import {
   LeftOutlined,
   MinusCircleOutlined,
   PlusOutlined,
   DeleteOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,13 +18,20 @@ import {
 import { listarAlmacenes } from "../../../Configuracion/Almacen/controllers";
 import { listarFamilias } from "../../Familia/controllers";
 import { guardarProducto, obtenerProducto } from "../controllers";
+import { URL_BASE_LOCAL } from "../../../../constants/Config";
+import { ModalImagen } from "./ModalImagen";
 
 export const FormularioAgregar = () => {
   const formRef = createRef();
   const dispatch = useDispatch();
+  const [modalImagen, setModalImagen] = useState(false);
   const { id } = useParams();
   const { almacen } = useSelector((state) => state.almacen);
   const { familia } = useSelector((state) => state.familia);
+
+  const { codigo, descripcion, almacenId, atributosId } = useSelector((state) => state.producto);
+
+
 
   useEffect(() => {
     listarAlmacenes();
@@ -33,18 +41,34 @@ export const FormularioAgregar = () => {
   useEffect(() => {
     if (id) {
       obtenerProducto(id);
-      formRef.current.setFieldsValue({
-        id: id,
-        // descripcion: nombre
-      });
     }
-  }, [id])
+  }, [id]);
+
+
+  useEffect(() => {
+    formRef.current.setFieldsValue({
+      id: id,
+      codigo: codigo,
+      descripcion: descripcion,
+      almacenId: almacenId,
+      atributosId: atributosId,
+    });
+  }, [id, codigo, descripcion, almacenId, atributosId]);
+
 
   const getFile = (e) => {
     console.log("Upload event:", e.target.files[0]);
 
     return e.target.files[0];
   };
+
+
+  const abrirImagen = () => {
+    return <Image
+      width={200}
+      src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+    />
+  }
 
   return (
     <>
@@ -70,7 +94,7 @@ export const FormularioAgregar = () => {
                 </Link>
               </Button>
               <h1 style={{ margin: "0 0 0 20px", paddingTop: "3px" }}>
-                Agregar Producto
+                {id ? "Actualizar" : "Crear"}  Producto
               </h1>
             </div>
             <div>
@@ -78,9 +102,15 @@ export const FormularioAgregar = () => {
                 type="primary"
                 style={{ margin: 0 }}
                 htmlType="submit"
-                onClick={() => guardarProducto(formRef.current)}
+                onClick={() => {
+                  if (id) {
+
+                  } else {
+                    guardarProducto(formRef.current)
+                  }
+                }}
               >
-                Guardar
+                {id ? "Actualizar" : "Guardar"}
               </Button>
             </div>
           </div>
@@ -119,10 +149,7 @@ export const FormularioAgregar = () => {
               },
             ]}
           >
-            <Input
-              placeholder="Ingrese el código del producto"
-              onChange={(e) => dispatch(setCodigo(e.target.value))}
-            />
+            <Input placeholder="Ingrese el código del producto" />
           </Form.Item>
           <Form.Item
             label="Descripción"
@@ -134,10 +161,7 @@ export const FormularioAgregar = () => {
               },
             ]}
           >
-            <Input
-              placeholder="Ingrese la descripción del producto"
-              onChange={(e) => dispatch(setDescripcion(e.target.value))}
-            />
+            <Input placeholder="Ingrese la descripción del producto" />
           </Form.Item>
           <Form.Item
             label="Almacén"
@@ -149,10 +173,7 @@ export const FormularioAgregar = () => {
               },
             ]}
           >
-            <Select
-              placeholder="Seleccione el almacén"
-              onChange={(e) => dispatch(setAlmacenId(e))}
-            >
+            <Select placeholder="Seleccione el almacén">
               {almacen
                 ? almacen.map((element) => {
                   return (
@@ -176,7 +197,7 @@ export const FormularioAgregar = () => {
           >
             <Select
               placeholder="Seleccione la familia"
-              onChange={(e) => dispatch(setAlmacenId(e))}
+            //onChange={(e) => dispatch(setAlmacenId(e))}
             >
               {familia
                 ? familia.map((element) => {
@@ -189,112 +210,141 @@ export const FormularioAgregar = () => {
                 : null}
             </Select>
           </Form.Item>
-          <Form.List name="atributos">
-            {(fields, { add, remove }) => (
-              <>
-                {fields.map(({ key, name, ...restField }) => (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      margin: "0 20px 20px 0",
-                      gap: "20px",
-                      alignItems: "start",
-                    }}
-                  >
-                    <Form.Item
-                      {...restField}
-                      name={[name, "nombre"]}
-                      // rules={[{ required: true, message: 'Missing first name' }]}
-                      style={{ margin: 0, width: "auto" }}
+
+          <Form.List name="atributosId">
+            {(fields, { add, remove }) => {
+              console.log("Fields padre: ", fields);
+
+              return (
+                <>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        margin: "0 20px 20px 0",
+                        gap: "20px",
+                        alignItems: "start",
+                      }}
                     >
-                      <Input placeholder="Atributo" style={{ margin: 0 }} />
-                    </Form.Item>
-                    <Form.List
-                      name={[name, "opciones"]}
-                      style={{ margin: 0, width: "100%" }}
+                      <Form.Item {...restField} name={[name, "nombre"]} style={{ margin: 0, width: "auto" }}>
+                        <Input placeholder="Atributo" style={{ margin: 0 }} />
+                      </Form.Item>
+
+                      <Form.List name={[name, "opciones"]} style={{ margin: 0, width: "100%" }}>
+                        {(fields, { add, remove }) => (
+                          <div style={{ display: "flex", flexDirection: "column" }} >
+                            {fields.map(({ key, name, ...restField }) => {
+
+                              console.log(fields);
+                              return (
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    margin: "0 20px 10px 0",
+                                    gap: "20px",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <Form.Item
+                                    {...restField}
+                                    name={[name, "nombre"]}
+                                    style={{ margin: 0, width: "100%" }}
+                                  >
+                                    <Input
+                                      placeholder="Opciones"
+                                      style={{ margin: 0 }}
+                                    />
+                                  </Form.Item>
+
+                                  {/*  <Form.Item
+                                    {...restField}
+                                    name={[name, "nombre"]}>                                
+                                    <Image width={200} src={URL_BASE_LOCAL + '/'} />  
+                                  </Form.Item> */}
+
+                                  <Form.Item
+                                    {...restField}
+                                    name={[name, "imagenUrl"]}
+                                    style={{ margin: 0, width: "auto" }}>
+
+                                    {/* <SearchOutlined onClick={ } /> */}
+
+
+
+
+                                  </Form.Item>
+
+
+                                  <Form.Item
+                                    getValueFromEvent={getFile}
+                                    valuePropName="file"
+                                    {...restField}
+                                    name={[name, "imagenUrl"]}
+                                    rules={[
+                                      {
+                                        required: true,
+                                        message: "Missing first name",
+                                      },
+                                    ]}
+                                    style={{ margin: 0, width: "100%" }}
+                                  >
+                                    <Input type="file" accept=".jpg,.jpeg,.png" />
+                                  </Form.Item>
+                                  <MinusCircleOutlined
+                                    onClick={() => remove(name)}
+                                  />
+                                </div>
+                              )
+                            })}
+
+                            <Form.Item style={{ margin: 0 }}>
+                              <Button
+                                type="dashed"
+                                onClick={() => add()}
+                                block
+                                icon={<PlusOutlined />}
+                                style={{ margin: 0 }}
+                              >
+                                Agregar Opciones
+                              </Button>
+                            </Form.Item>
+                          </div>
+                        )}
+                      </Form.List>
+                      <DeleteOutlined
+                        onClick={() => remove(name)}
+                        style={{ marginTop: "10px" }}
+                      />
+                    </div>
+                  ))}
+
+                  <Form.Item style={{ marginTop: "20px" }}>
+                    <Button
+                      type="dashed"
+                      onClick={() => add()}
+                      block
+                      icon={<PlusOutlined />}
+                      style={{ margin: 0 }}
                     >
-                      {(fields, { add, remove }) => (
-                        <div
-                          style={{ display: "flex", flexDirection: "column" }}
-                        >
-                          {fields.map(({ key, name, ...restField }) => (
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                margin: "0 20px 10px 0",
-                                gap: "20px",
-                                alignItems: "center",
-                              }}
-                            >
-                              <Form.Item
-                                {...restField}
-                                name={[name, "nombre"]}
-                                // rules={[{ required: true, message: 'Missing first name' }]}
-                                style={{ margin: 0, width: "100%" }}
-                              >
-                                <Input
-                                  placeholder="Opciones"
-                                  style={{ margin: 0 }}
-                                />
-                              </Form.Item>
-                              <Form.Item
-                                getValueFromEvent={getFile}
-                                valuePropName="file"
-                                {...restField}
-                                name={[name, "img"]}
-                                rules={[
-                                  {
-                                    required: true,
-                                    message: "Missing first name",
-                                  },
-                                ]}
-                                style={{ margin: 0, width: "100%" }}
-                              >
-                                <Input type="file" accept=".jpg,.jpeg,.png" />
-                              </Form.Item>
-                              <MinusCircleOutlined
-                                onClick={() => remove(name)}
-                              />
-                            </div>
-                          ))}
-                          <Form.Item style={{ margin: 0 }}>
-                            <Button
-                              type="dashed"
-                              onClick={() => add()}
-                              block
-                              icon={<PlusOutlined />}
-                              style={{ margin: 0 }}
-                            >
-                              Agregar Opciones
-                            </Button>
-                          </Form.Item>
-                        </div>
-                      )}
-                    </Form.List>
-                    <DeleteOutlined
-                      onClick={() => remove(name)}
-                      style={{ marginTop: "10px" }}
-                    />
-                  </div>
-                ))}
-                <Form.Item style={{ marginTop: "20px" }}>
-                  <Button
-                    type="dashed"
-                    onClick={() => add()}
-                    block
-                    icon={<PlusOutlined />}
-                    style={{ margin: 0 }}
-                  >
-                    Agregar Atributo
-                  </Button>
-                </Form.Item>
-              </>
-            )}
+                      Agregar Atributo
+                    </Button>
+                  </Form.Item>
+                </>
+              )
+            }}
           </Form.List>
         </Form>
-      </Card>
+      </Card >
+      {
+        modalImagen && (
+          <ModalImagen />
+
+        )
+
+
+      }
     </>
   );
 };

@@ -97,7 +97,6 @@ export const obtenerFamilia = async (id) => {
     const response = await getFamilia(id);
     if (response.statusCode === 200) {
       const body = response.body;
-      console.log("BODY: ", body);
       store.dispatch(setNombre(body.nombre));
       store.dispatch(setCodigo(body.codigo));
       store.dispatch(setId(body._id));
