@@ -60,31 +60,31 @@ export const Productos = ({ opciones }) => {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  margin: "0 20px 0 20px",
+                  margin: "0 0 10px 0",
                   padding: "0",
                   alignItems: "start",
                   width: "100%"
                 }}
               >
-                {/* <Col xs={3} style={{ padding: "0 5px 0 5px" }}>
-                            <Form.Item
-                              {...restField}
-                              name={[name, "codProducto"]}
-                              // rules={[{ required: true, message: 'Missing first name' }]}
-                              style={{ margin: 0, width: "100%" }}
-                            >
-                              <AutoComplete
-                                value={valueCOD}
-                                options={optionsCOD}
-                                onSearch={onSearchCOD}
-                                onSelect={onSelectCOD}
-                                onChange={onChangeCOD}
-                                style={{ width: '100%' }}
-                                placeholder="Código de Producto"
-                              />
-                            </Form.Item>
-                          </Col> */}
-                <Col xs={13} style={{ padding: "0 5px 0 5px" }}>
+                <Col xs={3} style={{ padding: "0 5px 0 5px" }}>
+                  <Form.Item
+                    {...restField}
+                    name={[name, "codProducto"]}
+                    // rules={[{ required: true, message: 'Missing first name' }]}
+                    style={{ margin: 0, width: "100%" }}
+                  >
+                    <AutoComplete
+                      // value={valueCOD}
+                      // options={optionsCOD}
+                      // onSearch={onSearchCOD}
+                      // onSelect={onSelectCOD}
+                      // onChange={onChangeCOD}
+                      style={{ width: '100%' }}
+                      placeholder="Código de Producto"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={9} style={{ padding: "0 5px 0 5px" }}>
                   <Form.Item
                     {...restField}
                     name={[name, "desProducto"]}
@@ -157,6 +157,10 @@ export const Productos = ({ opciones }) => {
                     </Select>
                   </Form.Item>
                 </Col>
+                <DeleteOutlined
+                  onClick={() => remove(name)}
+                  style={{ padding: '10px 10px 0 10px' }}
+                />
               </Row>
             ))}
           <Form.Item style={{ marginTop: "20px" }}>
@@ -171,8 +175,9 @@ export const Productos = ({ opciones }) => {
             </Button>
           </Form.Item>
         </>
-      )}
-    </Form.List>
+      )
+      }
+    </Form.List >
 
   );
 };

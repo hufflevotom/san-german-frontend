@@ -6,7 +6,7 @@ import {
   PlusOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setAlmacenId,
@@ -16,11 +16,12 @@ import {
 } from "../../../../appRedux/actions/Maestro/Producto";
 import { listarAlmacenes } from "../../../Configuracion/Almacen/controllers";
 import { listarFamilias } from "../../Familia/controllers";
-import { guardarProducto } from "../controllers";
+import { guardarProducto, obtenerProducto } from "../controllers";
 
 export const FormularioAgregar = () => {
   const formRef = createRef();
   const dispatch = useDispatch();
+  const { id } = useParams();
   const { almacen } = useSelector((state) => state.almacen);
   const { familia } = useSelector((state) => state.familia);
 
@@ -28,6 +29,16 @@ export const FormularioAgregar = () => {
     listarAlmacenes();
     listarFamilias();
   }, []);
+
+  useEffect(() => {
+    if (id) {
+      obtenerProducto(id);
+      formRef.current.setFieldsValue({
+        id: id,
+        // descripcion: nombre
+      });
+    }
+  }, [id])
 
   const getFile = (e) => {
     console.log("Upload event:", e.target.files[0]);
@@ -89,6 +100,15 @@ export const FormularioAgregar = () => {
           style={{ padding: "0 50px 0 50px" }}
           ref={formRef}
         >
+          <Form.Item
+            label="Id"
+            name="id"
+            style={{ display: "none" }}
+          >
+            <Input
+              placeholder="Ingrese el id del producto"
+            />
+          </Form.Item>
           <Form.Item
             label="Código"
             name="codigo"

@@ -1,7 +1,7 @@
 import { Divider, message } from 'antd';
 import { getColumnSearchProps } from '../../../../util/Utils';
 // Services
-import { obtenerProductos, crearProducto, subirImagenOpcion, eliminarProducto } from "../services/index";
+import { obtenerProductos, crearProducto, subirImagenOpcion, eliminarProducto, obtenerProductoPorId } from "../services/index";
 //Store
 import store, { history } from '../../../../appRedux/store';
 import { setProducto, setClear, setCargando } from '../../../../appRedux/actions/Maestro/Producto';
@@ -94,6 +94,25 @@ export const listarProductos = async () => {
     } else {
       console.log('Error al listar productos');
     }
+  } catch (error) {
+    console.error("Error al obtener lista de productos: ", error);
+    alert(error);
+  }
+}
+
+export const obtenerProducto = async (id) => {
+  try {
+    //Loading ON
+    store.dispatch(setCargando(true));
+    const response = await obtenerProductoPorId(id);
+    if (response.statusCode === 200) {
+      const body = response.body;
+      // store.dispatch(setNombre(body.nombre));
+      // store.dispatch(setId(body._id));
+      // return body;
+    }
+    //Loading OFF
+    store.dispatch(setCargando(false));
   } catch (error) {
     console.error("Error al obtener lista de productos: ", error);
     alert(error);

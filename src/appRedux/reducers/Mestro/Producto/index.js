@@ -3,8 +3,8 @@ import { typesProducto } from "../types/types";
 const initState = {
   codigo: '',
   descripcion: '',
-  atributosId: '',
-  almacenId: [],
+  almacenId: '',
+  atributosId: [],
   producto: [],
   cargando: false,
 };
@@ -52,8 +52,8 @@ export const ProductoReducer = (state = initState, action) => {
         ...state,
         codigo: '',
         descripcion: '',
-        atributosId: '',
-        almacenId: [],
+        almacenId: '',
+        atributosId: [],
         producto: [],
         cargando: false
       };

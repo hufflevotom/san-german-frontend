@@ -100,15 +100,15 @@ export const Formulario = () => {
           ref={formRef}
         >
           <Form.Item
-            label="Nombre"
+            label="Id"
             name="id"
             style={{ display: "none" }}
           >
             <Input
-              placeholder="Ingrese el id de la familia"
+              placeholder="Ingrese el id"
             />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             label="Nombre"
             name="nombre"
             rules={[
@@ -122,7 +122,7 @@ export const Formulario = () => {
               placeholder="Ingrese el nombre de la familia"
             // onChange={(e) => dispatch(setNombre(e.target.value))}
             />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             label="DOC. REF."
             name="docRef"
@@ -153,20 +153,20 @@ export const Formulario = () => {
             // onChange={(e) => dispatch(setNombre(e.target.value))}
             />
           </Form.Item>
-          <Row style={{ marginBottom: "10px" }}>
+          <Row style={{ marginBottom: "10px", marginLeft: "10px" }}>
             <Col xs={3} style={{ padding: "0" }}>
               Producto
             </Col>
             <Col xs={9} style={{ padding: "0" }}>
               Descripción
             </Col>
-            <Col xs={3} style={{ padding: "0 0 0 15px" }}>
+            <Col xs={3} style={{ padding: "0" }}>
               Lote Nº
             </Col>
-            <Col xs={3} style={{ padding: "0 0 0 15px" }}>
+            <Col xs={3} style={{ padding: "0" }}>
               Ubicación
             </Col>
-            <Col xs={3} style={{ padding: "0 0 0 5px" }}>
+            <Col xs={3} style={{ padding: "0" }}>
               Cant.
             </Col>
             <Col xs={2} style={{ padding: "0" }}>
