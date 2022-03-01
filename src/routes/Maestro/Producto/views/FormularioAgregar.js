@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from 'react';
+import React, { createRef, useEffect } from 'react';
 import { Form, Input, Button, Card, Select, Image } from 'antd';
 import {
   LeftOutlined,
@@ -9,22 +9,16 @@ import {
 } from '@ant-design/icons';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setAlmacenId,
-  setClear,
-  setCodigo,
-  setDescripcion,
-} from '../../../../appRedux/actions/Maestro/Producto';
+import { setClear } from '../../../../appRedux/actions/Maestro/Producto';
 import { listarAlmacenes } from '../../../Configuracion/Almacen/controllers';
 import { listarFamilias } from '../../Familia/controllers';
-import { guardarProducto, obtenerProducto } from '../controllers';
+import { editarProducto, guardarProducto, obtenerProducto } from '../controllers';
 import { URL_BASE_LOCAL } from '../../../../constants/Config';
-import { ModalImagen } from './ModalImagen';
+import noImage from '../../../../assets/img/no-image.png';
 
 export const FormularioAgregar = () => {
   const formRef = createRef();
   const dispatch = useDispatch();
-  const [modalImagen, setModalImagen] = useState(false);
   const { id } = useParams();
   const { almacen } = useSelector(state => state.almacen);
   const { familia } = useSelector(state => state.familia);
@@ -43,31 +37,50 @@ export const FormularioAgregar = () => {
   }, [id]);
 
   useEffect(() => {
-    console.log('atributosId', atributosId);
     formRef.current.setFieldsValue({
       id: id,
       codigo: codigo,
       descripcion: descripcion,
       almacenId: almacenId,
-      atributosId: atributosId,
+      atributos: atributosId,
       familiaId: familiaId,
     });
   }, [id, codigo, descripcion, almacenId, atributosId, familiaId]);
 
   const getFile = e => {
     console.log('Upload event:', e.target.files[0]);
-
     return e.target.files[0];
   };
 
-  const abrirImagen = () => {
-    return (
-      <Image
-        width={200}
-        src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-      />
-    );
-  };
+  function ImageDemo(url) {
+
+    if (url) {
+      return (
+        <Button type="link"
+          style={{ margin: 0, padding: 0 }}>
+          <Image
+            width={40}
+            height={30}
+            src={URL_BASE_LOCAL + '/' + url}
+
+          />
+        </Button>
+      );
+    } else {
+      return (
+        <Button type="link"
+          style={{ margin: 0, padding: 0 }}>
+          <Image
+            width={40}
+            height={30}
+            src="error"
+            fallback={noImage}
+          />
+        </Button>
+      );
+    }
+
+  }
 
   return (
     <>
@@ -101,6 +114,7 @@ export const FormularioAgregar = () => {
                 htmlType="submit"
                 onClick={() => {
                   if (id) {
+                    editarProducto(formRef.current);
                   } else {
                     guardarProducto(formRef.current);
                   }
@@ -201,7 +215,7 @@ export const FormularioAgregar = () => {
             </Select>
           </Form.Item>
 
-          <Form.List name="atributosId">
+          <Form.List name="atributos">
             {(fieldsPadre, { add, remove }) => {
               return (
                 <>
@@ -230,10 +244,15 @@ export const FormularioAgregar = () => {
                         {(fieldsHijo, { add, remove }) => (
                           <div style={{ display: 'flex', flexDirection: 'column' }}>
                             {fieldsHijo.map(({ key: keyHijo, name: nameHijo, ...restField }) => {
-                              console.log(
-                                'imagenUrl',
-                                atributosId[keyPadre].opciones[keyHijo].imagenUrl
-                              );
+
+                              var img;
+                              if (atributosId[keyPadre]) {
+                                const atributos = atributosId[keyPadre].opciones[keyHijo];
+
+                                if (atributos?.imagenUrl) {
+                                  img = atributosId[keyPadre].opciones[keyHijo].imagenUrl;
+                                }
+                              }
 
                               return (
                                 <div
@@ -252,12 +271,12 @@ export const FormularioAgregar = () => {
                                   >
                                     <Input placeholder="Opciones" style={{ margin: 0 }} />
                                   </Form.Item>
-
-                                  {/*  <Form.Item
-                                    {...restField}
-                                    name={[name, "nombre"]}>                                
-                                    <Image width={200} src={URL_BASE_LOCAL + '/'} />  
-                                  </Form.Item> */}
+                                  {
+                                    id &&
+                                    <div>
+                                      {ImageDemo(img)}
+                                    </div>
+                                  }
 
                                   <Form.Item
                                     {...restField}
@@ -324,7 +343,7 @@ export const FormularioAgregar = () => {
           </Form.List>
         </Form>
       </Card>
-      {modalImagen && <ModalImagen />}
+
     </>
   );
 };

@@ -21,8 +21,8 @@ export const obtenerProductoPorId = async (id) => {
   return response.data;
 }
 
-export const actualizarProducto = async (id) => {
-  const response = await httpClient.post(UPDATE_PRODUCTO + id);
+export const actualizarProducto = async (id, body) => {
+  const response = await httpClient.put(UPDATE_PRODUCTO + id, body);
   return response.data;
 }
 

@@ -1,7 +1,7 @@
 import { Divider, message, Modal } from 'antd';
 import { getColumnSearchProps } from '../../../../util/Utils';
 // Services
-import { obtenerProductos, crearProducto, subirImagenOpcion, eliminarProducto, obtenerProductoPorId } from "../services/index";
+import { obtenerProductos, crearProducto, subirImagenOpcion, eliminarProducto, obtenerProductoPorId, actualizarProducto } from "../services/index";
 //Store
 import store, { history } from '../../../../appRedux/store';
 import { setProducto, setClear, setCargando, setCodigo, setDescripcion, setAlmacenId, setAtributosId, setFamilia } from '../../../../appRedux/actions/Maestro/Producto';
@@ -117,13 +117,12 @@ export const guardarProducto = async (body) => {
   store.dispatch(setCargando(true));
   try {
     const formulario = body.getFieldsValue();
-    console.log(formulario);
     crearProducto(formulario).then((response) => {
       formulario.atributos.forEach(a => {
         a.opciones.forEach(async o => {
-          if (o.img) {
+          if (o.imagenUrl) {
             var data = new FormData();
-            data.append("imagen", o.img);
+            data.append("imagen", o.imagenUrl);
             await subirImagenOpcion(response.body._id, a.nombre, o.nombre, data);
           }
         });
@@ -150,6 +149,47 @@ export const guardarProducto = async (body) => {
 }
 
 
+export const editarProducto = async (body) => {
+  store.dispatch(setCargando(true));
+  try {
+    const formulario = body.getFieldsValue();
+    const id = formulario.id;
+    delete formulario.id;
+
+    actualizarProducto(id, formulario).then((response) => {
+
+      formulario.atributos.forEach(atributo => {
+        atributo.opciones.forEach(async opcion => {
+
+          if (opcion.imagenUrl) {
+            var data = new FormData();
+            data.append("imagen", opcion.imagenUrl);
+            await subirImagenOpcion(id, atributo.nombre, opcion.nombre, data);
+          }
+        });
+      });
+
+      if (response.statusCode === 200) {
+        //Mostrar Mensaje:  Actualizado exitosamente
+        message.success(response.message);
+        listarProductos();
+        //Redireccionar
+        history.push('/maestro/producto');
+      } else {
+        message.error(response.message);
+      }
+
+    });
+
+    store.dispatch(setCargando(false));
+    
+
+  } catch (error) {
+    console.error("Error al actualizar producto: ", error);
+    message.error(error);
+  }
+}
+
 export const borrarProducto = async (id) => {
   try {
     const response = await eliminarProducto(id);
@@ -168,6 +208,8 @@ export const borrarProducto = async (id) => {
     alert(error);
   }
 }
+
+
 
 
 
