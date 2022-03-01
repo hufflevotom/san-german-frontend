@@ -1,11 +1,11 @@
 import React, { createRef, useEffect } from 'react';
-import { Form, Input, Button, Card, Select, Image } from 'antd';
+import { Form, Input, Button, Card, Select } from 'antd';
 import {
   LeftOutlined,
   MinusCircleOutlined,
   PlusOutlined,
   DeleteOutlined,
-  SearchOutlined,
+  // SearchOutlined,
 } from '@ant-design/icons';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,8 +13,6 @@ import { setClear } from '../../../../appRedux/actions/Maestro/Producto';
 import { listarAlmacenes } from '../../../Configuracion/Almacen/controllers';
 import { listarFamilias } from '../../Familia/controllers';
 import { editarProducto, guardarProducto, obtenerProducto } from '../controllers';
-import { URL_BASE_LOCAL } from '../../../../constants/Config';
-import noImage from '../../../../assets/img/no-image.png';
 import { ImageDemo } from '../../../../util/Utils';
 
 export const FormularioAgregar = () => {
@@ -52,36 +50,6 @@ export const FormularioAgregar = () => {
     console.log('Upload event:', e.target.files[0]);
     return e.target.files[0];
   };
-
-  // function ImageDemo(url) {
-
-  //   if (url) {
-  //     return (
-  //       <Button type="link"
-  //         style={{ margin: 0, padding: 0 }}>
-  //         <Image
-  //           width={40}
-  //           height={30}
-  //           src={URL_BASE_LOCAL + '/' + url}
-
-  //         />
-  //       </Button>
-  //     );
-  //   } else {
-  //     return (
-  //       <Button type="link"
-  //         style={{ margin: 0, padding: 0 }}>
-  //         <Image
-  //           width={40}
-  //           height={30}
-  //           src="error"
-  //           fallback={noImage}
-  //         />
-  //       </Button>
-  //     );
-  //   }
-
-  // }
 
   return (
     <>
@@ -279,12 +247,12 @@ export const FormularioAgregar = () => {
                                     </div>
                                   }
 
-                                  <Form.Item
+                                  {/* <Form.Item
                                     {...restField}
                                     name={[nameHijo, 'imagenUrl']}
                                     style={{ margin: 0, width: 'auto' }}
                                   >
-                                  </Form.Item>
+                                  </Form.Item> */}
 
                                   <Form.Item
                                     getValueFromEvent={getFile}

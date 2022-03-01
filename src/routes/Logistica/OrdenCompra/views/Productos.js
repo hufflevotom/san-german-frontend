@@ -1,18 +1,15 @@
 //React
-import React, { createRef, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 //Ant Design
 import {
-  LeftOutlined,
-  MinusCircleOutlined,
   PlusOutlined,
   DeleteOutlined,
-  CaretRightOutlined
 } from "@ant-design/icons";
-import { Form, Input, Button, Card, Col, Row, Collapse, AutoComplete, Select } from "antd";
+import { Form, Input, Button, Col, Row, AutoComplete, Select } from "antd";
 //Redux
 import { useDispatch, useSelector } from "react-redux";
 import { onChangeCOD, onChangeNOM, onSearchNOM } from "../controllers";
+import { ImageDemo } from "../../../../util/Utils";
 // import { setClear } from "../../../../appRedux/actions/Maestro/Familia";
 //Controllers
 // import { guardarFamilia, actualizarFamilia, obtenerFamilia } from "../controllers";
@@ -20,23 +17,9 @@ import { onChangeCOD, onChangeNOM, onSearchNOM } from "../controllers";
 export const Productos = ({ opciones, onSelectNOM, onSelectCOD, value }) => {
 
   const dispatch = useDispatch();
+  const [imagenUrl, setImagenUrl] = useState([]);
 
-  // const [valueCOD, setValueCOD] = useState('');
-  // const [valueNOM, setValueNOM] = useState('');
-  // const [optionsNOM, setOptionsNOM] = useState([]);
-
-  // const onSelectNOM = (data, name) => {
-  //   const atributos = formRef.current.getFieldValue('atributos');
-  //   console.log(atributos);
-  //   opciones.forEach(element => {
-  //     if (element.key === data) {
-  //       atributos[name[0]].desProducto = element.descripcion;
-  //       // atributos[name[0]].desProducto = `${element.descripcion + ' ' + 'element.ape_pat_cli' + ' ' + 'element.ape_mat_cli'}`;
-  //       formRef.current.setFieldsValue({ atributos: atributos })
-  //       setValueNOM({ atributos: atributos });
-  //     }
-  //   });
-  // };
+  console.log(imagenUrl);
 
   return (
     <Form.List name="atributos" style={{ margin: 0, padding: 0 }}>
@@ -158,7 +141,7 @@ export const Productos = ({ opciones, onSelectNOM, onSelectCOD, value }) => {
                   {
                     value ?
                       value[name] ?
-                        value[name].atributos.map(element => {
+                        value[name].atributos.map((element, index) => {
                           return (
                             <Row style={{ margin: '10px 20px 10px 20px', width: '100% ' }}>
                               <Col xs={4} style={{ display: 'flex', alignItems: 'center' }}>
@@ -170,8 +153,15 @@ export const Productos = ({ opciones, onSelectNOM, onSelectCOD, value }) => {
                                   showSearch
                                   placeholder="Seleccione la opción"
                                   optionFilterProp="children"
-                                  // onChange={onChangeHabitación}
-                                  // onSearch={() => { }}
+                                  onChange={(e) => {
+                                    element.opciones.forEach((image) => {
+                                      if (image.nombre === e) {
+                                        var url = imagenUrl;
+                                        url[index] = image.imagenUrl;
+                                        setImagenUrl(url);
+                                      }
+                                    });
+                                  }}
                                   filterOption={(input, option) =>
                                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                   }
@@ -188,7 +178,7 @@ export const Productos = ({ opciones, onSelectNOM, onSelectCOD, value }) => {
                                 </Select>
                               </Col>
                               <Col xs={4} style={{ display: 'flex', alignItems: 'center' }}>
-                                {element.nombre + ':'}
+                                {ImageDemo(imagenUrl[index])}
                               </Col>
                             </Row>
                           );
