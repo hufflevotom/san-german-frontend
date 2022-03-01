@@ -222,9 +222,9 @@ export const onSearchNOM = async searchText => {
       var array1 = response.body;
       array[0].label =
         <Row style={{ textTransform: 'uppercase', fontWeight: 'bold', width: '100%' }}>
-          <Col xs={9}>Producto</Col>
-          <Col xs={8}>Almacen</Col>
-          <Col xs={7}>Familia</Col>
+          <Col xs={9}>&nbsp;&nbsp;&nbsp;Producto</Col>
+          <Col xs={8}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Almacen</Col>
+          <Col xs={7}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Familia</Col>
         </Row>
         ;
       for (let i = 0; i < array1.length; i++) {
@@ -233,7 +233,7 @@ export const onSearchNOM = async searchText => {
           key: array1[i]._id,
           value: array1[i]._id,
           label: (
-            <Row style={{ fontSize: '12px', display: 'flex', alignItems: 'center' }}>
+            <Row style={{  fontSize: '12px', display: 'flex', alignItems: 'initial' }}>
               <Col xs={3}>{array1[i].codigo}</Col>
               <Col xs={6} style={{ wordBreak: "break-all" }}>{array1[i].descripcion}</Col>
               <Col xs={3}>{array1[i].almacen.codigo}</Col>
