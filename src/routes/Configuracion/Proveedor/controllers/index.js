@@ -113,7 +113,7 @@ export const listarProveedores = async (pageOffset) => {
     const response = await obtenerProveedores(pageOffset);
     if (response.statusCode === 200) {
       const body = response.body;
-      body.forEach(element => {
+      body[0].forEach(element => {
         element.key = element._id;
       });
       store.dispatch(setProveedor(body));

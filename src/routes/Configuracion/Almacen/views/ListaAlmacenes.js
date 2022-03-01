@@ -1,5 +1,5 @@
 //React Components
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Table } from 'antd';
 import { Link } from 'react-router-dom';
 
@@ -13,6 +13,8 @@ import { useSelector } from 'react-redux';
 export const ListaAlmacenes = () => {
 
   const { almacen } = useSelector(state => state.almacen);
+
+
 
   useEffect(() => {
     listarAlmacenes();

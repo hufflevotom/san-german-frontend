@@ -1,5 +1,5 @@
 //React Components
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Table } from 'antd';
 import { Link } from 'react-router-dom';
 
@@ -12,11 +12,20 @@ import { useSelector } from 'react-redux';
 
 export const ListaProductos = () => {
 
+  const [pageOffset, setPageOffset] = useState(0);
   const { producto } = useSelector(state => state.producto);
 
+  const onChangePage = (e) => {
+    const { current, pageSize } = e;
+    const offset = current * pageSize - pageSize;
+    setPageOffset(offset);
+  }
+
   useEffect(() => {
-    listarProductos();
-  }, []);
+    listarProductos(pageOffset);
+  }, [pageOffset]);
+
+
 
   return (
     <Card
@@ -34,10 +43,12 @@ export const ListaProductos = () => {
       }
     >
       <Table
+        pagination={{ pageSize: 10, total: producto[1] }}
+        onChange={(e) => onChangePage(e)}
         className="gx-table-responsive"
         columns={columns}
-        dataSource={producto}
-        loading={producto.length > 0 ? false : true}
+        dataSource={producto[0]}
+        loading={producto[0]?.length > 0 ? false : true}
       />
     </Card>
   )

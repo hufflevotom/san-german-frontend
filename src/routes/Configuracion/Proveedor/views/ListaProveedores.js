@@ -38,12 +38,12 @@ export const ListaProveedores = () => {
       }
     >
       <Table
-        pagination={{ pageSize: 10, total: proveedor }}
+        pagination={{ pageSize: 10, total: proveedor[1] }}
         onChange={(e) => onChangePage(e)}
         className="gx-table-responsive"
         columns={columns}
-        dataSource={proveedor}
-      //loading={proveedor.length > 0 ? false : true}
+        dataSource={proveedor[0]}
+        loading={proveedor[0]?.length > 0 ? false : true}
       />
     </Card>
   )

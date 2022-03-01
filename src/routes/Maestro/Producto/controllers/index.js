@@ -68,12 +68,12 @@ export const columns = [
   }
 ];
 
-export const listarProductos = async () => {
+export const listarProductos = async (pageOffset) => {
   try {
-    const response = await obtenerProductos(10, 0);
+    const response = await obtenerProductos(pageOffset);
     if (response.statusCode === 200) {
       const body = response.body;
-      response.body.forEach(element => {
+      body[0].forEach(element => {
         element.key = element._id;
       });
       store.dispatch(setProducto(body));
@@ -182,7 +182,7 @@ export const editarProducto = async (body) => {
     });
 
     store.dispatch(setCargando(false));
-    
+
 
   } catch (error) {
     console.error("Error al actualizar producto: ", error);

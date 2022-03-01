@@ -1,8 +1,8 @@
 import { CREATE_PRODUCTO, DELETE_PRODUCTO, GET_PRODUCTOS, GET_ID_PRODUCTO, UPDATE_PRODUCTO, SUBIR_IMAGEN_OPCION } from "../../../../constants/Config"
 import { httpClient } from "../../../../util/Api"
 
-export const obtenerProductos = async (limit, offset) => {
-  const response = await httpClient.get(GET_PRODUCTOS + '?limit=' + limit + '&offset=' + offset);
+export const obtenerProductos = async (pageOffset) => {
+  const response = await httpClient.get(GET_PRODUCTOS + `?limit=10&offset=${pageOffset}`);
   return response.data;
 }
 
