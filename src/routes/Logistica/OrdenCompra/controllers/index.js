@@ -215,21 +215,7 @@ export const onSearchNOM = async searchText => {
     label: null,
     options: []
   }];
-  var peticion = true;
-  if (searchText ? searchText.length >= 4 : false) {
-    // dataBusqueda.forEach(element => {
-    //   if (element.descripcion.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())) {
-    //     array.push({
-    //       codigo: element.codigo,
-    //       descripcion: element.descripcion,
-    //       atributos: element.atributos,
-    //       key: element._id,
-    //       value: element._id,
-    //       label: element.descripcion,
-    //     })
-    //   }
-    // })
-    // peticion = true;
+  if (searchText ? searchText.length >= 2 : false) {
     store.dispatch(setOpciones());
     const response = await getProductoFiltrado(searchText);
     if (response.statusCode === 200) {
@@ -261,43 +247,6 @@ export const onSearchNOM = async searchText => {
       store.dispatch(setOpciones(array));
     };
   }
-
-  // var nombre = formRef.current.getFieldValue('nombre');
-  // if (nombre ? nombre.length >= 4 : false) {
-  //   setPeticion(true);
-  //   setOptionsNOM();
-  //   const respuesta = await httpClient.post(
-  //     'camas/getPacientes',
-  //     {
-  //       codPaciente: '',
-  //       nombre: nombre,
-  //     },
-  //     { cancelToken: cancelSource.token }
-  //   );
-  //   var array2 = respuesta.data.data;
-  //   console.log(respuesta.data.data);
-  //   for (let i = 0; i < array2.length; i++) {
-  //     if (array2[i].asignado === "1") {
-  //       delete array2[i];
-  //     } else {
-  //       array2[i].key = array2[i].cod_paciente;
-  //       array2[i].value = array2[i].cod_paciente;
-  //       array2[i].label = (
-  //         <div>
-  //           {array2[i].nom_cli}
-  //           <div style={{ color: '#a3a3a3' }}>{' ' + array2[i].ape_pat_cli + ' ' + array2[i].ape_mat_cli}</div>
-  //         </div>
-  //       );
-  //     }
-  //   }
-  //   setOptionsCOD();
-  //   setOptionsNOM(array2);
-  // } else {
-  //   if (peticion) {
-  //     cancelSource.cancel('NOM ancelado');
-  //     setCancelSource(axios.CancelToken.source());
-  //   }
-  // }
 };
 
 export const onChangeNOM = data => {

@@ -171,7 +171,7 @@ export const Productos = ({ opciones, onSelectNOM, onSelectCOD, value }) => {
                                   placeholder="Seleccione la opción"
                                   optionFilterProp="children"
                                   // onChange={onChangeHabitación}
-                                  onSearch={() => { }}
+                                  // onSearch={() => { }}
                                   filterOption={(input, option) =>
                                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                   }
@@ -186,6 +186,9 @@ export const Productos = ({ opciones, onSelectNOM, onSelectCOD, value }) => {
                                       null
                                   }
                                 </Select>
+                              </Col>
+                              <Col xs={4} style={{ display: 'flex', alignItems: 'center' }}>
+                                {element.nombre + ':'}
                               </Col>
                             </Row>
                           );
