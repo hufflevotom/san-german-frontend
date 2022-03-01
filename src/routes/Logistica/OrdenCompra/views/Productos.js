@@ -12,12 +12,12 @@ import {
 import { Form, Input, Button, Card, Col, Row, Collapse, AutoComplete, Select } from "antd";
 //Redux
 import { useDispatch, useSelector } from "react-redux";
-import { onChangeCOD, onSelectCOD, onChangeNOM, onSearchNOM } from "../controllers";
+import { onChangeCOD, onChangeNOM, onSearchNOM } from "../controllers";
 // import { setClear } from "../../../../appRedux/actions/Maestro/Familia";
 //Controllers
 // import { guardarFamilia, actualizarFamilia, obtenerFamilia } from "../controllers";
 
-export const Productos = ({ opciones, onSelectNOM, valueNOM }) => {
+export const Productos = ({ opciones, onSelectNOM, onSelectCOD, value }) => {
 
   const dispatch = useDispatch();
 
@@ -63,12 +63,14 @@ export const Productos = ({ opciones, onSelectNOM, valueNOM }) => {
                   >
                     <AutoComplete
                       // value={valueCOD}
-                      // options={optionsCOD}
-                      // onSearch={onSearchCOD}
-                      // onSelect={onSelectCOD}
-                      // onChange={onChangeCOD}
+                      options={opciones}
+                      onSearch={onSearchNOM}
+                      // onSelect={(e) => onSelectCOD(e, [name, "desProducto"])}
+                      onChange={onChangeCOD}
+                      dropdownMatchSelectWidth={700}
                       style={{ width: '100%' }}
-                      placeholder="Código de Producto"
+                      placeholder="Código"
+                      disabled
                     />
                   </Form.Item>
                 </Col>
@@ -86,8 +88,9 @@ export const Productos = ({ opciones, onSelectNOM, valueNOM }) => {
                       onSearch={onSearchNOM}
                       onSelect={(e) => onSelectNOM(e, [name, "desProducto"])}
                       onChange={onChangeNOM}
+                      dropdownMatchSelectWidth={700}
                       style={{ width: '100%' }}
-                      placeholder="Descripción del producto"
+                      placeholder="Buscar producto"
                     />
                   </Form.Item>
                 </Col>
@@ -147,13 +150,49 @@ export const Productos = ({ opciones, onSelectNOM, valueNOM }) => {
                 </Col>
                 <DeleteOutlined
                   onClick={() => {
-                    console.log(valueNOM);
-                    // remove(name)
+                    remove(name)
                   }}
                   style={{ padding: '10px 10px 0 10px' }}
                 />
-                <div>
-                  {valueNOM[key]}
+                <div style={{ padding: '20px', width: '100%' }}>
+                  {
+                    value ?
+                      value[name] ?
+                        value[name].atributos.map(element => {
+                          return (
+                            <Row style={{ margin: '10px 20px 10px 20px', width: '100% ' }}>
+                              <Col xs={4} style={{ display: 'flex', alignItems: 'center' }}>
+                                {element.nombre + ':'}
+                              </Col>
+                              <Col xs={10}>
+                                <Select
+                                  style={{ width: '100% ', margin: '0' }}
+                                  showSearch
+                                  placeholder="Seleccione la opción"
+                                  optionFilterProp="children"
+                                  // onChange={onChangeHabitación}
+                                  onSearch={() => { }}
+                                  filterOption={(input, option) =>
+                                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                  }
+                                >
+                                  {
+                                    element ?
+                                      element.opciones.map(option => {
+                                        return (
+                                          <Select.Option value={option.nombre}>{option.nombre}</Select.Option>
+                                        );
+                                      }) :
+                                      null
+                                  }
+                                </Select>
+                              </Col>
+                            </Row>
+                          );
+                        }) :
+                        null :
+                      null
+                  }
                 </div>
               </Row>
             ))}
