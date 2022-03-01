@@ -15,6 +15,7 @@ import { listarFamilias } from '../../Familia/controllers';
 import { editarProducto, guardarProducto, obtenerProducto } from '../controllers';
 import { URL_BASE_LOCAL } from '../../../../constants/Config';
 import noImage from '../../../../assets/img/no-image.png';
+import { ImageDemo } from '../../../../util/Utils';
 
 export const FormularioAgregar = () => {
   const formRef = createRef();
@@ -52,35 +53,35 @@ export const FormularioAgregar = () => {
     return e.target.files[0];
   };
 
-  function ImageDemo(url) {
+  // function ImageDemo(url) {
 
-    if (url) {
-      return (
-        <Button type="link"
-          style={{ margin: 0, padding: 0 }}>
-          <Image
-            width={40}
-            height={30}
-            src={URL_BASE_LOCAL + '/' + url}
+  //   if (url) {
+  //     return (
+  //       <Button type="link"
+  //         style={{ margin: 0, padding: 0 }}>
+  //         <Image
+  //           width={40}
+  //           height={30}
+  //           src={URL_BASE_LOCAL + '/' + url}
 
-          />
-        </Button>
-      );
-    } else {
-      return (
-        <Button type="link"
-          style={{ margin: 0, padding: 0 }}>
-          <Image
-            width={40}
-            height={30}
-            src="error"
-            fallback={noImage}
-          />
-        </Button>
-      );
-    }
+  //         />
+  //       </Button>
+  //     );
+  //   } else {
+  //     return (
+  //       <Button type="link"
+  //         style={{ margin: 0, padding: 0 }}>
+  //         <Image
+  //           width={40}
+  //           height={30}
+  //           src="error"
+  //           fallback={noImage}
+  //         />
+  //       </Button>
+  //     );
+  //   }
 
-  }
+  // }
 
   return (
     <>

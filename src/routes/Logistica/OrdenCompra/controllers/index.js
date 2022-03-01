@@ -215,30 +215,16 @@ export const onSearchNOM = async searchText => {
     label: null,
     options: []
   }];
-  var peticion = true;
-  if (searchText ? searchText.length >= 4 : false) {
-    // dataBusqueda.forEach(element => {
-    //   if (element.descripcion.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())) {
-    //     array.push({
-    //       codigo: element.codigo,
-    //       descripcion: element.descripcion,
-    //       atributos: element.atributos,
-    //       key: element._id,
-    //       value: element._id,
-    //       label: element.descripcion,
-    //     })
-    //   }
-    // })
-    // peticion = true;
+  if (searchText ? searchText.length >= 2 : false) {
     store.dispatch(setOpciones());
     const response = await getProductoFiltrado(searchText);
     if (response.statusCode === 200) {
       var array1 = response.body;
       array[0].label =
         <Row style={{ textTransform: 'uppercase', fontWeight: 'bold', width: '100%' }}>
-          <Col xs={9}>Producto</Col>
-          <Col xs={8}>Almacen</Col>
-          <Col xs={7}>Familia</Col>
+          <Col xs={9}>&nbsp;&nbsp;&nbsp;Producto</Col>
+          <Col xs={8}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Almacen</Col>
+          <Col xs={7}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Familia</Col>
         </Row>
         ;
       for (let i = 0; i < array1.length; i++) {
@@ -247,7 +233,7 @@ export const onSearchNOM = async searchText => {
           key: array1[i]._id,
           value: array1[i]._id,
           label: (
-            <Row style={{ fontSize: '12px', display: 'flex', alignItems: 'center' }}>
+            <Row style={{  fontSize: '12px', display: 'flex', alignItems: 'initial' }}>
               <Col xs={3}>{array1[i].codigo}</Col>
               <Col xs={6} style={{ wordBreak: "break-all" }}>{array1[i].descripcion}</Col>
               <Col xs={3}>{array1[i].almacen.codigo}</Col>
@@ -261,43 +247,6 @@ export const onSearchNOM = async searchText => {
       store.dispatch(setOpciones(array));
     };
   }
-
-  // var nombre = formRef.current.getFieldValue('nombre');
-  // if (nombre ? nombre.length >= 4 : false) {
-  //   setPeticion(true);
-  //   setOptionsNOM();
-  //   const respuesta = await httpClient.post(
-  //     'camas/getPacientes',
-  //     {
-  //       codPaciente: '',
-  //       nombre: nombre,
-  //     },
-  //     { cancelToken: cancelSource.token }
-  //   );
-  //   var array2 = respuesta.data.data;
-  //   console.log(respuesta.data.data);
-  //   for (let i = 0; i < array2.length; i++) {
-  //     if (array2[i].asignado === "1") {
-  //       delete array2[i];
-  //     } else {
-  //       array2[i].key = array2[i].cod_paciente;
-  //       array2[i].value = array2[i].cod_paciente;
-  //       array2[i].label = (
-  //         <div>
-  //           {array2[i].nom_cli}
-  //           <div style={{ color: '#a3a3a3' }}>{' ' + array2[i].ape_pat_cli + ' ' + array2[i].ape_mat_cli}</div>
-  //         </div>
-  //       );
-  //     }
-  //   }
-  //   setOptionsCOD();
-  //   setOptionsNOM(array2);
-  // } else {
-  //   if (peticion) {
-  //     cancelSource.cancel('NOM ancelado');
-  //     setCancelSource(axios.CancelToken.source());
-  //   }
-  // }
 };
 
 export const onChangeNOM = data => {
